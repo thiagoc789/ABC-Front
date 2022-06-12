@@ -37,6 +37,7 @@ import {
 } from "reactstrap";
 
 import routes from "routes.js";
+import userServices from "services/userServices";
 
 function Header(props) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -89,6 +90,12 @@ function Header(props) {
       sidebarToggle.current.classList.toggle("toggled");
     }
   }, [location]);
+
+  const mostrarUsuarios = async () => {
+    const res = await userServices.getUsers();
+    console.log(res.data);
+  }
+
   return (
     // add or remove classes depending if we are on full-screen-maps page or not
     <Navbar
@@ -161,6 +168,9 @@ function Header(props) {
                 <DropdownItem tag="a">Action</DropdownItem>
                 <DropdownItem tag="a">Another Action</DropdownItem>
                 <DropdownItem tag="a">Something else here</DropdownItem>
+                <DropdownItem onClick={() => mostrarUsuarios()} tag="a">
+                  Prueba
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <NavItem>

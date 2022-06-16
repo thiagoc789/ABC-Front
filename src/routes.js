@@ -17,6 +17,7 @@
 
 */
 import Dashboard from "views/Dashboard.js";
+import Eventos from "views/Eventos.js";
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
@@ -33,6 +34,15 @@ var routes = [
     component: Dashboard,
     layout: "/admin",
   },
+
+  {
+    path: "/eventos",
+    name: "Eventos",
+    icon: "nc-icon nc-book-bookmark",
+    component: Eventos,
+    layout: "/admin",
+  },
+
   {
     path: "/icons",
     name: "Icons",

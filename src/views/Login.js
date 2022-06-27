@@ -58,7 +58,7 @@ const Login = () => {
     try {
       const res = await userServices.login(values);
       console.log(res.data);
-      toast.success('Inicio de sesión exitoso', {
+      toast.success("Inicio de sesión exitoso", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -66,13 +66,13 @@ const Login = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'colored'
-        });
-      cookies.set('token', res.data, {path: '/'});
-      window.location.href = '/admin/dashboard';
+        theme: "colored",
+      });
+      cookies.set("token", res.data, { path: "/" });
+      window.location.href = "/admin/dashboard";
     } catch (e) {
       console.log(e);
-      toast.error('Correo electrónico o contraseña incorrectos', {
+      toast.error("Correo electrónico o contraseña incorrectos", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -80,17 +80,18 @@ const Login = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'colored'
-        });
-        return <Redirect to={'/admin/dashboard'} />
+        theme: "colored",
+      });
+      return <Redirect to={"/admin/dashboard"} />;
     }
   };
 
   useEffect(() => {
-    if(cookies.get('token')){
-      window.location.assign('./admin/dashboard')
-  }
-  });
+    const cookies = new Cookies();
+    if (cookies.get("token")) {
+      window.location.assign("./admin/dashboard");
+    }
+  }, []);
 
   return (
     <Container

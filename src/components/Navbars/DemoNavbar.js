@@ -92,15 +92,13 @@ function Header(props) {
   }, [location]);
 
   const mostrarUsuarios = async () => {
-    
-    await userServices.createUser({
-      name: "Juan",
-      lastname: "Garcia",
-      adress: "2"
-    });
+
     const res = await userServices.getUsers();
     console.log(res.data);
+    
   }
+
+  
 
   
 

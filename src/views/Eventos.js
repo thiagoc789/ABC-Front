@@ -17,6 +17,7 @@
 
 */
 import React, { Component, useEffect, useState } from "react";
+import Button from 'react-bootstrap/Button';
 // react plugin used to create charts
 // reactstrap components
 import {
@@ -46,7 +47,12 @@ const Eventos = () => {
 
   return (
     <div className="content">
+      
+
               <Row>
+              <div class="col-md-12 bg-light text-center">
+              <a class="btn" href="nuevoEvento">Nuevo Evento</a>
+              </div>
           <Col md="12">
             <Card>
               <CardHeader>

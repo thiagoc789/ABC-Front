@@ -47,7 +47,7 @@ var routes = [
   {
     path: "/eventos",
     name: "Eventos",
-    icon: "nc-icon nc-book-bookmark",
+    icon: "nc-icon nc-atom",
     component: Eventos,
     layout: "/admin",
   },

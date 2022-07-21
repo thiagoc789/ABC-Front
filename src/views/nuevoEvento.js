@@ -1,140 +1,86 @@
-import React, { useState } from "react";
+import React, { Component } from 'react';
+import axios from 'axios';
 
-// React-Bootstrap
-import Form from "react-bootstrap/Form";
 
-import Button from 'react-bootstrap/Button';
-
-import API from "../services/apiRoutes.js";
 import {
   Card,
   CardHeader,
+  CardBody,
+  CardTitle,
+  Table,
   Row,
   Col,
-  CardTitle,
 } from "reactstrap";
 
-const CreateMyModel = () => {
+class App extends Component {
 
-    const [data, setData] = useState({
-        title: "",
-        description: "",
-        image_url: "",
-    });
-    const [errors, setErrors] = useState({
-        title: "",
-        description: "",
-        image_url: "",
-    });
+  state = {
+    title: '',
+    content: '',
+    image: null
+  };
 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    })
+  };
 
-    const handleChange = ({ currentTarget: input }) => {
-        let newData = { ...data };
-        newData[input.name] = input.value;
-        setData(newData);
-    };
+  handleImageChange = (e) => {
+    this.setState({
+      image: e.target.files[0]
+    })
+  };
 
-    const handleImageChange = (e) => {
-        let newData = { ...data };
-        newData["image_url"] = e.target.files[0];
-        setData(newData);
-    };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(this.state);
+    let form_data = new FormData();
+    form_data.append('image', this.state.image, this.state.image.name);
+    form_data.append('title', this.state.title);
+    form_data.append('content', this.state.content);
+    let url = 'http://localhost:8000/api/posts/';
+    axios.post(url, form_data, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => console.log(err))
+  };
 
-    const doSubmit = async (e) => {
-        e.preventDefault();
-        const response = await API.createMyModelEntry(data);
-        if (response.status === 400) {
-            setErrors(response.data);
-        }
-    };
-
+  render() {
     return (
-      <div className="content">
-        <div class="col-md-12 bg-light text-center">
-              <Row>
-          <Col md="12">
+        <Row>
+            <Col md="12">
             <Card>
-            <CardHeader>
-                <CardTitle tag="h4">Crear Un Nuevo Evento</CardTitle>
-            </CardHeader>
+              <CardHeader>
+                <CardTitle tag="h4">Simple Table</CardTitle></CardHeader>
+      <div className="App">
+        <form onSubmit={this.handleSubmit}>
+          <p>
+            <input type="text" placeholder='Title' id='title' value={this.state.title} onChange={this.handleChange} required/>
+          </p>
+          <p>
+            <input type="text" placeholder='Content' id='content' value={this.state.content} onChange={this.handleChange} required/>
 
-        <Form>
-            <Row>
-            <Col md="12">
-            <div class="col-md-5 bg-light text-center"> 
-                <Form.Group className="mb-3" controlId="titleInput">
-                    <Form.Label align="center">Title</Form.Label>
-                    <Form.Control
-                        align="center"
-                        type="text"
-                        name="title"
-                        value={data.title}
-                        isInvalid={errors.title}
-                        onChange={(e) => {
-                            handleChange(e);
-                        }}
-                        maxLength={80}
-                    />
-                    {errors.title && (
-                        <Form.Text className="alert-danger" tooltip>
-                            {errors.title}
-                        </Form.Text>
-                    )}
-                </Form.Group>
-                </div>
-                </Col>
-            </Row>
-            <Row>
-            <Col md="12">
-                <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>My Image</Form.Label>
-                    <Form.Control
-                        align="center"
-                        type="file"
-                        name="image_url"
-                        accept="image/jpeg,image/png,image/gif"
-                        onChange={(e) => {
-                            handleImageChange(e);
-                        }}
-                    />
-                    {errors.image_url && (
-                        <Form.Text className="alert-danger" tooltip>
-                            {errors.image_url}
-                        </Form.Text>
-                    )}
-                </Form.Group>
-                </Col>
-            </Row>
-            <Form.Group className="mb-3" controlId="descriptionInput">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                    as="textarea"
-                    rows={10}
-                    name="description"
-                    value={data.description}
-                    isInvalid={errors.description}
-                    onChange={(e) => {
-                        handleChange(e);
-                    }}
-                />
-                {errors.description && (
-                    <Form.Text className="alert-danger" tooltip>
-                        {errors.description}
-                    </Form.Text>
-                )}
-
-            </Form.Group>
-            <Button variant="primary" type="submit"  onClick={(e) => doSubmit(e)}>Primary
-            </Button>{' '}
-            
-        </Form>
+          </p>
+          <p>
+            <input type="file"
+                   id="image"
+                   accept="image/png, image/jpeg"  onChange={this.handleImageChange} required/>
+          </p>
+          <input type="submit"/>
+        </form>
         
-        </Card>
-          </Col>
-        </Row>
-    </div>
-    </div>
+      </div>
+      </Card>
+      </Col>
+      </Row>
     );
-};
+  }
+}
 
-export default CreateMyModel;
+export default App;

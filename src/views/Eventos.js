@@ -85,8 +85,7 @@ const AddMovie = ({ onAdd }) => {
                     <th scope="row">{movie.id}</th>
                     <td> {movie.title}</td>
                     <td>{movie.content}</td>
-                    <td>{movie.image}</td>
-                    <img src="https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-goose.jpg" alt='image' width='100%'/>
+                    <img src={movie.image} alt='image' width='100%'/>
                     <td>
                       <i
                         className="fa fa-pencil-square text-primary d-inline"

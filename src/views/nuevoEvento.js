@@ -37,10 +37,10 @@ const App = () => {
     let form_data = new FormData();
     form_data.append('title', tutorial.title);
     form_data.append('content', tutorial.content);
-    form_data.append('image', tutorial.image);
-    console.log({url})
-    let url = 'http://localhost:8000/api/posts/';
-    axios.post(url, form_data, {
+    form_data.append('image', url);
+    console.log(url)
+    let url2 = 'http://localhost:8000/api/posts/';
+    axios.post(url2, form_data, {
       headers: {
         'content-type': 'multipart/form-data'
       }
@@ -65,6 +65,7 @@ const App = () => {
       .then(resp => resp.json())
       .then(data => {
         setUrl(data.url)
+        console.log(url)
       })
       .catch(err => console.log(err))
       
@@ -124,20 +125,8 @@ const App = () => {
 
         <button onClick={uploadImage}>Upload</button> 
 
-
-        <div className="form-group">
-            <label htmlFor="image">Url</label>
-            <input
-              type="text"
-              className="form-control"
-              id="image"
-              required
-              value={tutorial.image}
-              onChange={handleInputChange}
-              name="image"
-            />
-          </div>
         <img src={url} />
+        {url.length>0 && <p>{url}</p>}
           <button onClick={saveTutorial} className="btn btn-success">
             Submit
           </button>

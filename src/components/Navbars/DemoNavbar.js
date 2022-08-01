@@ -37,7 +37,7 @@ import {
 } from "reactstrap";
 
 import routes from "routes.js";
-import userServices from "services/userServices";
+
 
 function Header(props) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -91,12 +91,7 @@ function Header(props) {
     }
   }, [location]);
 
-  const mostrarUsuarios = async () => {
 
-    const res = await userServices.getUsers();
-    console.log(res.data);
-    
-  }
 
   
 
@@ -174,9 +169,6 @@ function Header(props) {
                 <DropdownItem tag="a">Action</DropdownItem>
                 <DropdownItem tag="a">Another Action</DropdownItem>
                 <DropdownItem tag="a">Something else here</DropdownItem>
-                <DropdownItem onClick={() => mostrarUsuarios()} tag="a">
-                  Prueba
-                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <NavItem>

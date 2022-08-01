@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react'
 import axios from 'axios';
-
-
+import {useRef } from "react";
 import {
   Card,
   CardHeader,
@@ -11,76 +10,142 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import Container from '@material-ui/core/Container';
 
-class App extends Component {
 
-  state = {
-    title: '',
-    content: '',
-    image: null
+
+const App = () => {
+
+  const initialTutorialState = {
+    title: "",
+    content: "",
+    image: ""
   };
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value
-    })
+  const [imagen, setImagen] = useState("");
+  const [url, setUrl] = useState("");
+  const [tutorial, setTutorial] = useState(initialTutorialState);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    setTutorial({ ...tutorial, [name]: value });
   };
 
-  handleImageChange = (e) => {
-    this.setState({
-      image: e.target.files[0]
-    })
-  };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state);
+  const saveTutorial = () => {
     let form_data = new FormData();
-    form_data.append('image', this.state.image, this.state.image.name);
-    form_data.append('title', this.state.title);
-    form_data.append('content', this.state.content);
+    form_data.append('title', tutorial.title);
+    form_data.append('content', tutorial.content);
+    form_data.append('image', tutorial.image);
+    console.log({url})
     let url = 'http://localhost:8000/api/posts/';
     axios.post(url, form_data, {
       headers: {
         'content-type': 'multipart/form-data'
       }
     })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => console.log(err))
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.log(err))
+    //window.location = "eventos"
   };
 
-  render() {
-    return (
-        <Row>
-            <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle></CardHeader>
-      <div className="App">
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <input type="text" placeholder='Title' id='title' value={this.state.title} onChange={this.handleChange} required/>
-          </p>
-          <p>
-            <input type="text" placeholder='Content' id='content' value={this.state.content} onChange={this.handleChange} required/>
 
-          </p>
-          <p>
-            <input type="file"
-                   id="image"
-                   accept="image/png, image/jpeg"  onChange={this.handleImageChange} required/>
-          </p>
-          <input type="submit"/>
-        </form>
-        
-      </div>
-      </Card>
-      </Col>
-      </Row>
-    );
+  const uploadImage = () => {
+    const data = new FormData()
+    data.append("file", imagen)
+    data.append("upload_preset", "wansxszh")
+    data.append("cloud_name", "Structum")
+    fetch("https://api.cloudinary.com/v1_1/Structum/upload", {
+      method: "post",
+      body: data
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        setUrl(data.url)
+      })
+      .catch(err => console.log(err))
+      
   }
-}
 
+  const newTutorial = () => {
+    setTutorial(initialTutorialState);
+    setSubmitted(false);
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+    <div className="submit-form">
+      {submitted ? (
+        <div>
+          <h4>You submitted successfully!</h4>
+          <button className="btn btn-success" onClick={newTutorial}>
+            Add
+          </button>
+        </div>
+      ) : (
+        <div>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              required
+              value={tutorial.title}
+              onChange={handleInputChange}
+              name="title"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="content">Content</label>
+            <input
+              type="text"
+              className="form-control"
+              id="content"
+              required
+              value={tutorial.content}
+              onChange={handleInputChange}
+              name="content"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="content">Subir imagen</label>
+            <input
+              type="file"
+              className="form-control"
+              required
+              onChange={(e) => setImagen(e.target.files[0])}
+            />
+          </div>
+
+        <button onClick={uploadImage}>Upload</button> 
+
+
+        <div className="form-group">
+            <label htmlFor="image">Url</label>
+            <input
+              type="text"
+              className="form-control"
+              id="image"
+              required
+              value={tutorial.image}
+              onChange={handleInputChange}
+              name="image"
+            />
+          </div>
+        <img src={url} />
+          <button onClick={saveTutorial} className="btn btn-success">
+            Submit
+          </button>
+        </div>
+      )}
+    </div>
+    </Container>
+
+  )
+}
 export default App;

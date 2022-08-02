@@ -1,16 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import {useRef } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Table,
-  Row,
-  Col,
-} from "reactstrap";
 import Container from '@material-ui/core/Container';
+import eventServices from 'services/eventServices';
 
 
 
@@ -39,17 +30,8 @@ const App = () => {
     form_data.append('content', tutorial.content);
     form_data.append('image', url);
     console.log(url)
-    let url2 = 'http://localhost:8000/api/posts/';
-    axios.post(url2, form_data, {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }
-    })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => console.log(err))
-    //window.location = "eventos"
+    eventServices.createUser(form_data)
+    window.location = "eventos"
   };
 
 
@@ -78,6 +60,20 @@ const App = () => {
 
   return (
     <Container component="main" maxWidth="xs">
+      <Form>
+        <Form.Field>
+            <label>First Name</label>
+            <input placeholder='First Name' />
+        </Form.Field>
+        <Form.Field>
+            <label>Last Name</label>
+            <input placeholder='Last Name' />
+        </Form.Field>
+        <Form.Field>
+            <Checkbox label='I agree to the Terms and Conditions' />
+        </Form.Field>
+        <Button type='submit'>Submit</Button>
+    </Form>
     <div className="submit-form">
       {submitted ? (
         <div>

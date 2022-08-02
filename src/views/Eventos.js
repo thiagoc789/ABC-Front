@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-
+import eventServices from "services/eventServices";
+import { useParams} from 'react-router-dom';
 import API from "./api";
 import {
   UncontrolledAlert,
   Alert,
-  Card,
   CardHeader,
   CardBody,
   CardTitle,
@@ -13,14 +13,28 @@ import {
   Table,
 } from "reactstrap";
 
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import CardGroup from 'react-bootstrap/CardGroup';
+
 
 
 const AddMovie = ({ onAdd }) => {
-  const [id, setId] = useState("");
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [movies, setMovies] = useState([]);
+
+  const { id }= useParams();
+  const initialTutorialState = {
+    id: null,
+    title: "",
+    description: "",
+    published: false
+  };
+
+  const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
 
 
   useEffect(() => {
@@ -28,17 +42,11 @@ const AddMovie = ({ onAdd }) => {
   }, []);
 
   const refreshMovies = () => {
-    API.get("/")
+    eventServices.getUsers()
       .then((res) => {
         setMovies(res.data);
       })
       .catch(console.error);
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    let item = { id: id, title: title, content: content, image: image };
-    API.post("/", item).then(() => refreshMovies());
   };
 
   const onUpdate = (id) => {
@@ -47,68 +55,51 @@ const AddMovie = ({ onAdd }) => {
   };
 
   const onDelete = (id) => {
-    API.delete(`/${id}/`).then((res) => refreshMovies());
+    eventServices.getSingleUser()
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch(console.error);
   };
 
-  function selectMovie(id) {
-    let item = movies.filter((movie) => movie.id === id)[0];
-    setId(item.id);
-    setTitle(item.title);
-    setContent(item.content);
-    setImage(item.image);
-  }
 
   return (
     <div className="content">
-                    <Row>
-              <div class="col-md-12 bg-light text-center">
+      <p class="h2 text-center">Lista De Eventos</p>
+      <div class="col-md-11 bg-light text-right">
               <a class="btn" href="nuevoEvento">Nuevo Evento</a>
+        </div>
+        <Row  md={3} className="g-4">
+        {Array.from(movies).map((movie, index) => {
+          
+        return (
+          <div class="row text-center">
+              <Card style={{ width: '40rem' }}>
+              <Card.Text>
+                    {movie.id}
+                  </Card.Text>
+                <Card.Img  variant="top" src={movie.image} />
+                <Card.Body >
+                  <Card.Title>{movie.title}</Card.Title>
+                  <Card.Text>
+                    {movie.content}
+                  </Card.Text>
+                  <Card.Text>
+                    {movie.created_at}
+                  </Card.Text>
+                  <Button  variant="primary">Detalles</Button>
+                  <button type="button" class="btn btn-info">Editar</button>
+                  <button onClick={onDelete} type="button" class="btn btn-danger">Eliminar</button>
+                </Card.Body>
+              </Card> 
               </div>
-              <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
-              </CardHeader>
-              <CardBody>
-        <Table responsive>
-          <thead className="text-primary">
-            <tr>
-              <th>Titulo</th>
-              <th>Descripcion</th>
-              <th>Imagen</th>
-            </tr>
-          </thead>
-          <tbody>
-          {movies.map((movie, index) => {
-                return (
-                  <tr key="">
-                    <th scope="row">{movie.id}</th>
-                    <td> {movie.title}</td>
-                    <td>{movie.content}</td>
-                    <img src={movie.image} alt='image' width='100%'/>
-                    <td>
-                      <i
-                        className="fa fa-pencil-square text-primary d-inline"
-                        aria-hidden="true"
-                        onClick={() => selectMovie(movie.id)}
-                      ></i>
-                      <i
-                        className="fa fa-trash-o text-danger d-inline mx-3"
-                        aria-hidden="true"
-                        onClick={() => onDelete(movie.id)}
-                      ></i>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-         
-          </Table>
-              </CardBody>
-            </Card>
-          </Col>
+                  
+        );
+        
+      })}
+      
+</Row>
 
-          </Row>
     </div>
   );
 };

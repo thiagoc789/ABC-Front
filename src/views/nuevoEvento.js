@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from 'axios';
 import Container from '@material-ui/core/Container';
 import eventServices from 'services/eventServices';
 

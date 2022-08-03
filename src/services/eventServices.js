@@ -15,6 +15,7 @@ class userServices {
   }
   getSingleUser(id) {
     return axios.get(`${ROUTES.USER}/${id}`);
+    
   }
   deleteUser(id) {
     return axios.delete(`${ROUTES.USER}/${id}`);

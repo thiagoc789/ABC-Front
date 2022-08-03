@@ -1,29 +1,16 @@
 import { useState, useEffect } from "react";
 import eventServices from "services/eventServices";
-import { ListGroup, Card, Button, Form } from "react-bootstrap";
-import { useParams } from 'react-router-dom';
-import API from "./api";
-import {
-  UncontrolledAlert,
-  Alert,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Row,
-  Col,
-  Table,
-} from "reactstrap";
+import {Card} from "react-bootstrap";
 
-import CardGroup from 'react-bootstrap/CardGroup';
+import {
+  Row,
+
+} from "reactstrap";
 
 
 
 const AddMovie = ({ onAdd }) => {
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [image, setImage] = useState(null);
-  const [id, setId] = useState(null);
   const [movies, setMovies] = useState([]);
 
 
@@ -39,31 +26,17 @@ const AddMovie = ({ onAdd }) => {
       .catch(console.error);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    let item = { title, content, image };
-    eventServices.createUser(item).then(() => refreshMovies());
-  };
-
-  const onUpdate = (id) => {
-    let item = { title };
-    eventServices.updateUser(id, item).then((res) => refreshMovies());
-  };
-
   const onDelete = (id) => {
     eventServices.deleteUser(id).then((res) => refreshMovies());
   };
 
-  function selectMovie(id) {
-    let item = movies.filter((movie) => movie.id === id)[0];
-    setTitle(item.title);
-    setContent(item.content);
-    setImage(item.image);
-    setId(item.id);
-    console.log(item)
+  const selectMovie = async (id) => {
+    eventServices.getSingleUser(id).then((res) => window.location.href = `/evento/${id}`);
   }
 
-
+  const updateMovie = async (id) => {
+    eventServices.getSingleUser(id).then((res) => window.location.href = `/actualizarEvento/${id}`);
+  }
 
   return (
     <div className="content">
@@ -88,8 +61,8 @@ const AddMovie = ({ onAdd }) => {
                     <Card.Text>
                       {movie.created_at}
                     </Card.Text>
-                    <Button variant="primary">Detalles</Button>
-                    <button onClick={() => selectMovie(movie.id)} type="button" class="btn btn-info">Editar</button>
+                    <button onClick={() => selectMovie(movie.id)} type="button" class="btn btn-info">Detalles</button>
+                    <button onClick={() => updateMovie(movie.id)} type="button" class="btn btn-info">Editar</button>
                     <button onClick={() => onDelete(movie.id)} type="button" class="btn btn-danger">Eliminar</button>
                   </Card.Body>
                 </Card>
@@ -100,14 +73,7 @@ const AddMovie = ({ onAdd }) => {
           })}
 
         </Row>
-        <Button
-          variant="primary"
-          type="button"
-          onClick={() => onUpdate(id)}
-          className="mx-2"
-        >
-          Update
-        </Button>
+
       </div>
 
 

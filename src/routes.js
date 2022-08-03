@@ -27,6 +27,7 @@ import Maps from "views/Map.js";
 import UserPage from "views/User.js";
 import UpgradeToPro from "views/Upgrade.js";
 
+
 var routes = [
   {
     path: "/dashboard",
@@ -35,6 +36,8 @@ var routes = [
     component: Dashboard,
     layout: "/admin",
   },
+
+
 
   {
     path: "/nuevoEvento",

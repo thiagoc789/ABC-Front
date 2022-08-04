@@ -6,21 +6,17 @@ class userServices {
   login(data){
     return axios.post(`${ROUTES.USER}/login/`, data)
   }
-  getUserAuthenticated(){
-    return axios.get(`${ROUTES.USER}/user-authenticated/`)
-  }
   logout(){
     return axios.post(`${ROUTES.USER}/logout/`)
   }
-  getUsers() {
-    console.log(ROUTES.USER);
+  getUsers() {    
     return axios.get(`${ROUTES.USER}/`);
   }
   createUser(values) {
-    return axios.post(`${ROUTES.USER}/`, values);
+    return axios.post(`${ROUTES.USER}/register/`, values);
   }
   updateUser(id, values) {
-    return axios.patch(`${ROUTES.USER}/${id}`, values);
+    return axios.put(`${ROUTES.USER}/${id}`, values);
   }
   getSingleUser(id) {
     return axios.get(`${ROUTES.USER}/${id}`);

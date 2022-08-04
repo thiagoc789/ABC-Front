@@ -38,6 +38,7 @@ import {
 
 import routes from "routes.js";
 
+
 function Header(props) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -89,6 +90,13 @@ function Header(props) {
       sidebarToggle.current.classList.toggle("toggled");
     }
   }, [location]);
+
+
+
+  
+
+  
+
   return (
     // add or remove classes depending if we are on full-screen-maps page or not
     <Navbar

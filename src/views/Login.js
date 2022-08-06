@@ -21,7 +21,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "universal-cookie/es6";
 
-const Login = () => {
+function Login() {
   const [stateButton, setStateButton] = useState(true);
   const captcha = useRef(null);
   const cookies = new Cookies();
@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
+    user_id: Yup.string()
       .email("Formato de correo electrónico inválido")
       .required("Campo requerido"),
     password: Yup.string()
@@ -44,12 +44,11 @@ const Login = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      user_id: "",
       password: "",
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
-      console.log(values);
       getLogin(values);
     },
   });
@@ -69,7 +68,14 @@ const Login = () => {
         theme: "colored",
       });
       cookies.set("token", res.data, { path: "/" });
-      window.location.href = "/admin/dashboard";
+      if(res.data.role === 'admin') {
+        window.location.href = "/admin/dashboard";
+      }
+      if(res.data.role === 'user') {
+        window.location.href = "/admin/eventos";
+      }
+      
+      //window.location.href = "/admin/dashboard";
     } catch (e) {
       console.log(e);
       toast.error("Correo electrónico o contraseña incorrectos", {
@@ -118,21 +124,21 @@ const Login = () => {
                     <FormGroup>
                       <label>Correo electrónico</label>
                       <Input
-                        id="email"
-                        name="email"
-                        value={formik.values.email}
+                        id="user_id"
+                        name="user_id"
+                        value={formik.values.user_id}
                         onChange={formik.handleChange}
                         type="email"
                         placeholder="email@example.com"
                         className={`form-control ${
-                          formik.touched.email && formik.errors.email
+                          formik.touched.user_id && formik.errors.user_id
                             ? "is-invalid"
                             : ""
                         }`}
                         onBlur={formik.handleBlur}
-                        invalid={formik.touched.email && !!formik.errors.email}
+                        invalid={formik.touched.user_id && !!formik.errors.user_id}
                       />
-                      <FormFeedback>{formik.errors.email}</FormFeedback>
+                      <FormFeedback>{formik.errors.user_id}</FormFeedback>
                     </FormGroup>
                   </Col>
                 </Row>

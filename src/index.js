@@ -21,8 +21,6 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import ActualizarEvento from "views/ActualizarEvento";
 import Evento from "views/Evento.js";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.3.0";
 import "assets/demo/demo.css";

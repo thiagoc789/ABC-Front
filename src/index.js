@@ -38,7 +38,7 @@ ReactDOM.render(
       <Route path="/actualizarEvento/:id" component={ActualizarEvento} />;
       <Redirect to="/admin/dashboard" />
       <Route path='/' render={() => <Login />} />
-
+      <Route path='/' render={() => <Login />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

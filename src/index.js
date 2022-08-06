@@ -21,21 +21,26 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import ActualizarEvento from "views/ActualizarEvento";
 import Evento from "views/Evento.js";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.3.0";
 import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-
-import AdminLayout from "layouts/Admin.js";
+import Login from "views/Login";
+import AdminLayout from '../src/layouts/Admin'
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
+      {/*<Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+      <Redirect to="/admin/dashboard" />*/}
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/evento/:id" component={Evento} />;
       <Route path="/actualizarEvento/:id" component={ActualizarEvento} />;
       <Redirect to="/admin/dashboard" />
+      <Route path='/' render={() => <Login />} />
+
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

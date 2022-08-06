@@ -32,7 +32,7 @@ var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    icon: "nc-icon nc-bank",
+    icon: "nc-icon nc-layout-11",
     component: Dashboard,
     layout: "/admin",
   },
@@ -41,16 +41,16 @@ var routes = [
 
   {
     path: "/nuevoEvento",
-    name: "nuevoEvento",
-    icon: "nc-icon nc-bank",
+    name: "nuevo Evento",
+    icon: "nc-icon nc-badge",
     component: NuevoEvento,
     layout: "/admin",
   },
-
+  
   {
     path: "/eventos",
     name: "Eventos",
-    icon: "nc-icon nc-atom",
+    icon: "nc-icon nc-tap-01",
     component: Eventos,
     layout: "/admin",
   },

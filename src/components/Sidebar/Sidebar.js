@@ -57,14 +57,14 @@ function Sidebar(props) {
           className="simple-text logo-mini"
         >
           <div className="logo-img">
-            <img src={logo} alt="react-logo" />
+            <img src={logo} alt="\\ea5a" />
           </div>
         </a>
         <a
           href="https://www.creative-tim.com"
           className="simple-text logo-normal"
         >
-          Creative Tim
+          EMPRESA ABC
         </a>
       </div>
       <div className="sidebar-wrapper" ref={sidebar}>

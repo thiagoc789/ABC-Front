@@ -34,7 +34,6 @@ function Login() {
   };
 
   const LoginSchema = Yup.object().shape({
-
     user_id: Yup.string()
       .email("Formato de correo electrónico inválido")
       .required("Campo requerido"),

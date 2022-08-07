@@ -18,47 +18,45 @@ import { toast } from "react-toastify";
 
 export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
   const UserSchema = Yup.object().shape({
-    username: Yup.string().required("Campo requerido"),
-    first_name: Yup.string().required("Campo requerido"),
-    last_name: Yup.string().required("Campo requerido"),
-    email: Yup.string()
+    Name: Yup.string().required("Campo requerido"),
+    Last_name: Yup.string().required("Campo requerido"),
+    Email: Yup.string()
       .email("Formato de correo electrónico inválido")
       .required("Campo requerido"),
-    password: Yup.string()
+    Password: Yup.string()
       .max(8, "No debe superar los 8 caracteres")
       .required("Campo requerido"),
     confirm_password: Yup.string()
       .max(8, "No debe superar los 8 caracteres")
       .required("Campo requerido"),
-    role: Yup.string().required("Campo requerido"),
-    identification: Yup.number()
+    Role: Yup.string().required("Campo requerido"),
+    Phone: Yup.number()
       .typeError("Solo números")
       .max(9999999999)
       .min(0)
       .required("Campo requerido"),
-    adress: Yup.string().required("Campo requerido"),
   });
 
   const formik = useFormik({
     initialValues: {
-      username: infoEdit ? infoEdit.username : "",
-      first_name: infoEdit ? infoEdit.first_name : "",
-      last_name: infoEdit ? infoEdit.last_name : "",
-      email: infoEdit ? infoEdit.email : "",
-      password: infoEdit ? infoEdit.password : "",
+      Name: infoEdit ? infoEdit.Name : "",
+      Last_name: infoEdit ? infoEdit.Last_name : "",
+      Email: infoEdit ? infoEdit.Email : "",
+      Password: infoEdit ? infoEdit.Password : "",
       confirm_password: infoEdit ? infoEdit.confirm_password : "",
-      role: infoEdit ? infoEdit.role : "Administrador",
-      identification: infoEdit ? infoEdit.identification : "",
-      adress: infoEdit ? infoEdit.adress : "",
+      Role: infoEdit ? infoEdit.Role : "Admin",
+      Phone: infoEdit ? infoEdit.Phone : "",
     },
     enableReinitialize: infoEdit ? true : false,
     validationSchema: UserSchema,
     onSubmit: (values) => {
       // eslint-disable-next-line no-unused-vars
-      const {password, confirm_password, ...rest } = values;
-      if(password===confirm_password) {
+      console.log(values);
+      const {Password, confirm_password, ...rest } = values;
+      if(Password===confirm_password) {
         const {confirm_password, ...rest } = values;
-        action(rest);
+        const final_data = {State: true, ...rest}
+        action(final_data);
       } else {
         toast.success("Contraseñas no coinciden", {
           position: "bottom-right",
@@ -83,124 +81,101 @@ export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
           <CardBody>
             <form onSubmit={formik.handleSubmit}>
               <Row>
-                <Col className="pr-1" md="4">
+                <Col md="6">
                   <FormGroup>
                     <label>Nombres</label>
                     <Input
                       placeholder="Nombres"
                       type="text"
-                      id="first_name"
-                      name="first_name"
-                      value={formik.values.first_name}
+                      id="Name"
+                      name="Name"
+                      value={formik.values.Name}
                       onChange={formik.handleChange}
                       className={`form-control ${
-                        formik.touched.first_name && formik.errors.first_name
+                        formik.touched.Name && formik.errors.Name
                           ? "is-invalid"
                           : ""
                       }`}
                       onBlur={formik.handleBlur}
                       invalid={
-                        formik.touched.first_name && !!formik.errors.first_name
+                        formik.touched.Name && !!formik.errors.Name
                       }
                     />
-                    <FormFeedback>{formik.errors.first_name}</FormFeedback>
+                    <FormFeedback>{formik.errors.Name}</FormFeedback>
                   </FormGroup>
                 </Col>
-                <Col className="px-1" md="4">
+                <Col md="6">
                   <FormGroup>
                     <label>Apellidos</label>
                     <Input
                       placeholder="Apellidos"
                       type="text"
-                      id="last_name"
-                      name="last_name"
-                      value={formik.values.last_name}
+                      id="Last_name"
+                      name="Last_name"
+                      value={formik.values.Last_name}
                       onChange={formik.handleChange}
                       className={`form-control ${
-                        formik.touched.last_name && formik.errors.last_name
+                        formik.touched.Last_name && formik.errors.Last_name
                           ? "is-invalid"
                           : ""
                       }`}
                       onBlur={formik.handleBlur}
                       invalid={
-                        formik.touched.last_name && !!formik.errors.last_name
+                        formik.touched.Last_name && !!formik.errors.Last_name
                       }
                     />
-                    <FormFeedback>{formik.errors.last_name}</FormFeedback>
-                  </FormGroup>
-                </Col>
-                <Col className="px-1" md="4">
-                  <FormGroup>
-                    <label>Nombre de usuario</label>
-                    <Input
-                      placeholder="Nombre de usuario"
-                      type="text"
-                      id="username"
-                      name="username"
-                      value={formik.values.username}
-                      onChange={formik.handleChange}
-                      className={`form-control ${
-                        formik.touched.username && formik.errors.username
-                          ? "is-invalid"
-                          : ""
-                      }`}
-                      onBlur={formik.handleBlur}
-                      invalid={
-                        formik.touched.username && !!formik.errors.username
-                      }
-                    />
-                    <FormFeedback>{formik.errors.username}</FormFeedback>
+                    <FormFeedback>{formik.errors.Last_name}</FormFeedback>
                   </FormGroup>
                 </Col>
               </Row>
               <Row>
-                <Col className="pr-1" md="4">
+                <Col md="4">
                   <FormGroup>
                     <label htmlFor="exampleInputEmail1">
                       Correo electrónico
                     </label>
                     <Input
                       placeholder="Correo Electrónico"
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formik.values.email}
+                      type="Email"
+                      id="Email"
+                      name="Email"
+                      value={formik.values.Email}
                       onChange={formik.handleChange}
                       className={`form-control ${
-                        formik.touched.email && formik.errors.email
+                        formik.touched.Email && formik.errors.Email
                           ? "is-invalid"
                           : ""
                       }`}
                       onBlur={formik.handleBlur}
-                      invalid={formik.touched.email && !!formik.errors.email}
+                      invalid={formik.touched.Email && !!formik.errors.Email}
                     />
-                    <FormFeedback>{formik.errors.email}</FormFeedback>
+                    <FormFeedback>{formik.errors.Email}</FormFeedback>
                   </FormGroup>
                 </Col>
-                <Col className="px-1" md="4">
+                <Col md="4">
                   <FormGroup>
                     <label>Contraseña</label>
                     <Input
                       placeholder="*************************"
                       type="password"
-                      id="password"
-                      name="password"
-                      value={formik.values.password}
+                      id="Password"
+                      name="Password"
+                      value={formik.values.Password}
                       onChange={formik.handleChange}
                       className={`form-control ${
-                        formik.touched.password && formik.errors.password
+                        formik.touched.Password && formik.errors.Password
                           ? "is-invalid"
                           : ""
                       }`}
                       onBlur={formik.handleBlur}
                       invalid={
-                        formik.touched.password && !!formik.errors.password
+                        formik.touched.Password && !!formik.errors.Password
                       }
                     />
-                    <FormFeedback>{formik.errors.password}</FormFeedback>
+                    <FormFeedback>{formik.errors.Password}</FormFeedback>
                   </FormGroup>
                 </Col>
-                <Col className="px-1" md="4">
+                <Col md="4">
                   <FormGroup>
                     <label>Confirmar contraseña</label>
                     <Input
@@ -229,74 +204,54 @@ export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
                 </Col>
               </Row>
               <Row>
-                <Col md="4">
+                <Col md="6">
                   <FormGroup>
-                    <label>Número de identificación</label>
+                    <label>Número de teléfono</label>
                     <Input
-                      placeholder="C.C."
+                      placeholder="Teléfono"
                       type="text"
-                      id="identification"
-                      name="identification"
-                      value={formik.values.identification}
+                      id="Phone"
+                      name="Phone"
+                      value={formik.values.Phone}
                       onChange={formik.handleChange}
                       className={`form-control ${
-                        formik.touched.identification &&
-                        formik.errors.identification
+                        formik.touched.Phone &&
+                        formik.errors.Phone
                           ? "is-invalid"
                           : ""
                       }`}
                       onBlur={formik.handleBlur}
                       invalid={
-                        formik.touched.identification &&
-                        !!formik.errors.identification
+                        formik.touched.Phone &&
+                        !!formik.errors.Phone
                       }
                     />
-                    <FormFeedback>{formik.errors.identification}</FormFeedback>
+                    <FormFeedback>{formik.errors.Phone}</FormFeedback>
                   </FormGroup>
                 </Col>
-                <Col md="4">
+                <Col md="6">
                   <FormGroup>
                     <label>Cargo</label>
                     <Input
                       placeholder="Cargo"
                       type="select"
-                      id="role"
-                      name="role"
-                      value={formik.values.role}
+                      id="Role"
+                      name="Role"
+                      value={formik.values.Role}
                       onChange={formik.handleChange}
                       className={`form-control ${
-                        formik.touched.role && formik.errors.role
+                        formik.touched.Role && formik.errors.Role
                           ? "is-invalid"
                           : ""
                       }`}
                       onBlur={formik.handleBlur}
-                      invalid={formik.touched.role && !!formik.errors.role}
+                      invalid={formik.touched.Role && !!formik.errors.Role}
                     >
-                      <option>Administrador</option>
-                      <option>Usuario</option>
+                      <option>Admin</option>
+                      <option>Gerente</option>
+                      <option>Operador</option>
                     </Input>
-                    <FormFeedback>{formik.errors.role}</FormFeedback>
-                  </FormGroup>
-                </Col>
-                <Col md="4">
-                  <FormGroup>
-                    <label>Dirección</label>
-                    <Input
-                      placeholder="Calle 12 # 3 - 4, Cali"
-                      type="text"
-                      id="adress"
-                      name="adress"
-                      value={formik.values.adress}
-                      onChange={formik.handleChange}
-                      className={`form-control ${
-                        formik.touched.adress && formik.errors.adress
-                          ? "is-invalid"
-                          : ""
-                      }`}
-                      onBlur={formik.handleBlur}
-                      invalid={formik.touched.adress && !!formik.errors.adress}
-                    />
-                    <FormFeedback>{formik.errors.adress}</FormFeedback>
+                    <FormFeedback>{formik.errors.Role}</FormFeedback>
                   </FormGroup>
                 </Col>
               </Row>

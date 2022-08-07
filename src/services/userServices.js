@@ -3,8 +3,11 @@ import ROUTES from "./apiRoutes";
 
 class userServices {
 
-  login(data){
-    return axios.post(`${ROUTES.USER}/login/`, data)
+  async login(email, password){
+    const res = await axios.get(`${ROUTES.USER}/`)
+    const logged = res.data.find((element) => element.Email === email && element.Password === password)
+    console.log(logged);
+    return logged;
   }
   logout(){
     return axios.post(`${ROUTES.USER}/logout/`)
@@ -13,16 +16,21 @@ class userServices {
     return axios.get(`${ROUTES.USER}/`);
   }
   createUser(values) {
-    return axios.post(`${ROUTES.USER}/register/`, values);
+    return axios.post(`${ROUTES.USER}/`, values);
   }
   updateUser(id, values) {
-    return axios.put(`${ROUTES.USER}/${id}`, values);
+    return axios.put(`${ROUTES.USER}/${id}/`, values);
   }
-  getSingleUser(id) {
-    return axios.get(`${ROUTES.USER}/${id}`);
+  async getSingleUser(id) {
+    const res = await axios.get(`${ROUTES.USER}/`);
+    const logged = res.data.find((element) => element.id === parseInt(id))
+    return logged;
   }
-  deleteUser(id) {
-    return axios.delete(`${ROUTES.USER}/${id}`);
+  deleteUser(id, values) {
+    const {State, ...rest} = values;
+    const estado = !State
+    const data = {State: estado, ...rest}
+    return axios.put(`${ROUTES.USER}/${id}/`, data);
   }
 }
 

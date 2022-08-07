@@ -101,7 +101,7 @@ var routes = [
   {
     path: "/usuarios",
     name: "Usuarios",
-    icon: "nc-icon nc-caps-small",
+    icon: "nc-icon nc-single-02",
     component: Usuarios,
     layout: "/admin",
     subroutes: [

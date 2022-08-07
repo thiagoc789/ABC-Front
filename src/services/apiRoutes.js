@@ -8,7 +8,7 @@ const DNS = {
 };
 
 const ROUTES = {
-  USER: `${DNS.host}/posts`,
+  USER: `${DNS.host}/User`,
   
 };
 export default ROUTES;

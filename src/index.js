@@ -36,8 +36,7 @@ ReactDOM.render(
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/evento/:id" component={Evento} />;
       <Route path="/actualizarEvento/:id" component={ActualizarEvento} />;
-      <Redirect to="/admin/dashboard" />
-      <Route path='/' render={() => <Login />} />
+      {/*<Redirect to="/admin/dashboard" />*/}
       <Route path='/' render={() => <Login />} />
     </Switch>
   </BrowserRouter>,

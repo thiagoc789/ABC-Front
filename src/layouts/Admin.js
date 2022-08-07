@@ -37,9 +37,9 @@ function Dashboard(props) {
   const cookies = new Cookies();
 
   React.useEffect(() => {
-    if (!cookies.get("token")) {
-      window.location.assign("/");
-    }
+    //if (!cookies.get("token")) {
+    //  window.location.assign("/");
+    //}
 
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current);

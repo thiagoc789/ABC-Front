@@ -5,11 +5,16 @@
   "homepage": "https://demos.creative-tim.com/paper-dashboard-react/#/dashboard",
   "dependencies": {
     "@babel/core": "7.14.2",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.93",
+    "@mui/styles": "^5.9.3",
     "axios": "^0.27.2",
     "bootstrap": "4.6.0",
     "chart.js": "3.2.1",
     "font-awesome": "^4.7.0",
+    "formik": "^2.2.9",
     "jquery": "3.6.0",
+    "next": "^12.2.4",
     "node-sass": "6.0.0",
     "perfect-scrollbar": "1.5.1",
     "react": "17.0.2",
@@ -22,7 +27,8 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
     "react-table": "^7.8.0",
-    "reactstrap": "8.9.0"
+    "reactstrap": "8.9.0",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

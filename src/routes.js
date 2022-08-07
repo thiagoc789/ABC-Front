@@ -19,6 +19,7 @@
 import Dashboard from "views/Dashboard.js";
 import Eventos from "views/Eventos.js";
 import NuevoEvento from "views/nuevoEvento.js";
+import Noticias from "views/news/Noticias.js"
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
@@ -52,6 +53,14 @@ var routes = [
     name: "Eventos",
     icon: "nc-icon nc-tap-01",
     component: Eventos,
+    layout: "/admin",
+  },
+
+  {
+    path: "/noticias",
+    name: "Noticias",
+    icon: "nc-icon nc-single-copy-04",
+    component: Noticias,
     layout: "/admin",
   },
 

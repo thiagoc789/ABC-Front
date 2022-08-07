@@ -21,7 +21,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "universal-cookie/es6";
 
-const Login = () => {
+function Login() {
   const [stateButton, setStateButton] = useState(true);
   const captcha = useRef(null);
   const cookies = new Cookies();
@@ -34,8 +34,8 @@ const Login = () => {
   };
 
   const LoginSchema = Yup.object().shape({
-    user_id: Yup.string(),
-    email: Yup.string()
+
+    user_id: Yup.string()
       .email("Formato de correo electrónico inválido")
       .required("Campo requerido"),
     password: Yup.string()
@@ -46,12 +46,10 @@ const Login = () => {
   const formik = useFormik({
     initialValues: {
       user_id: "",
-      email: "",
       password: "",
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
-      console.log(values);
       getLogin(values);
     },
   });
@@ -130,7 +128,6 @@ const Login = () => {
                         id="user_id"
                         name="user_id"
                         value={formik.values.user_id}
-
                         onChange={formik.handleChange}
                         type="email"
                         placeholder="email@example.com"

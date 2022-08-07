@@ -11,8 +11,7 @@ class userServices {
   getUserAuthenticated(){
     return axios.get(`${ROUTES.USER}/user-authenticated/`)
   }
-  getUsers() {
-    console.log(ROUTES.USER);
+  getUsers() {    
     return axios.get(`${ROUTES.USER}/`);
   }
   createUser(values) {

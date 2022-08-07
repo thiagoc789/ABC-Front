@@ -30,7 +30,6 @@ import Usuarios from "views/Usuarios/Usuarios";
 import CrearUsuario from "views/Usuarios/CrearUsuario";
 import EditarUsuario from "views/Usuarios/EditarUsuario";
 
-
 var routes = [
   {
     path: "/dashboard",
@@ -39,9 +38,7 @@ var routes = [
     component: Dashboard,
     layout: "/admin",
   },
-
-
-
+  
   {
     path: "/nuevoEvento",
     name: "nuevo Evento",

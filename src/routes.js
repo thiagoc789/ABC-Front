@@ -27,6 +27,7 @@ import TableList from "views/Tables.js";
 import Maps from "views/Map.js";
 import UserPage from "views/User.js";
 import UpgradeToPro from "views/Upgrade.js";
+import Calendario from "views/Calendario";
 
 
 var routes = [
@@ -100,7 +101,7 @@ var routes = [
     path: "/calendario",
     name: "Calendario",
     icon: "nc-icon nc-calendar-60",
-    component: Noticias,
+    component: Calendario,
     layout: "/admin",
   },
 

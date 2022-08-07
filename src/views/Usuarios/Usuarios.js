@@ -13,7 +13,8 @@ import {
 } from "reactstrap";
 import userServices from "services/userServices";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { toast } from "react-toastify";
+import { ImSwitch } from 'react-icons/im';
+import { toast, ToastContainer } from "react-toastify";
 
 function Usuarios() {
   const [users, setUsers] = useState("");
@@ -29,10 +30,12 @@ function Usuarios() {
       [id]: !prevState[id],
     }));
   }
-  const deleteUser = async (id) => {
+  const deleteUser = async (data) => {
+    const {id, ...rest} = data; 
+    console.log(data);
     try {
-      await userServices.deleteUser(id);
-      toast.error("Usuario eliminado", {
+      await userServices.deleteUser(id, rest);
+      toast.success("Estado actualizado", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -55,11 +58,12 @@ function Usuarios() {
   const getUsers = async () => {
     const res = await userServices.getUsers();
     console.log(res.data)
-    setUsers(res.data.users);
+    setUsers(res.data);
   };
   return (
     <>
       <div className="content">
+      <ToastContainer />
         <Card className="card-user">
           <CardHeader>
             <Row>
@@ -85,8 +89,8 @@ function Usuarios() {
                         <tr>
                           <th>Nombre</th>
                           <th>Correo electrónico</th>
-                          <th>Dirección</th>
-                          <th>Núm. identificación</th>
+                          <th>Teléfono</th>
+                          <th>Rol</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -95,11 +99,11 @@ function Usuarios() {
                           users?.map((element) => (
                             <tr key={element.id}>
                               <td>
-                                {element.first_name} {element.last_name}
+                                {element.Name} {element.Lat_name}
                               </td>
-                              <td>{element.email}</td>
-                              <td>{element.adress}</td>
-                              <td>{element.identification}</td>
+                              <td>{element.Email}</td>
+                              <td>{element.Phone}</td>
+                              <td>{element.Role}</td>
                               <td>
                                 <Link to={`/admin/usuarios/editar-usuario/${element.id}`}>
                                 <Button
@@ -124,9 +128,9 @@ function Usuarios() {
                                   id={`TooltipDelete${element.id}`}
                                   outline
                                   style={{ backgroundColor: "white", "&:hover":{backgroundColor: 'red'}}}
-                                  onClick={() => deleteUser(element.id)}
+                                  onClick={() => deleteUser(element)}
                                 >
-                                  <AiFillDelete size="20px" color="#Ff4245"/>
+                                  <ImSwitch size="20px" color={element.State ? "#Ff4245" : 'green'}/>
                                 </Button>
                                 <Tooltip
                                   isOpen={tooltipDeleteOpen[element.id]}
@@ -136,7 +140,7 @@ function Usuarios() {
                                     handleClickTooltipDeleteOpen(element.id)
                                   }
                                 >
-                                  Eliminar
+                                  {element.State ? "Desactivar" : "Activar"}
                                 </Tooltip>
                               </td>
                             </tr>

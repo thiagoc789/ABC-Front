@@ -30,7 +30,8 @@ function EditarUsuario({match}) {
 
   const getUser = async () => {
     const res = await userServices.getSingleUser(match.params.id);
-    setUser(res.data.users);
+    setUser(res);
+    console.log(res, match.params.id);
   }
 
   useEffect(() => {

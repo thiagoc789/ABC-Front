@@ -39,7 +39,7 @@ function Login() {
       .email("Formato de correo electrónico inválido")
       .required("Campo requerido"),
     password: Yup.string()
-      .min(6, "Contraseña debe de tener al menos 6 caracteres")
+      .min(4, "Contraseña debe de tener al menos 4 caracteres")
       .required("Campo requerido"),
   });
 
@@ -56,8 +56,14 @@ function Login() {
 
   const getLogin = async (values) => {
     try {
-      const res = await userServices.login(values);
-      console.log(res.data);
+      const res = await userServices.login(values.user_id, values.password);
+      cookies.set("token", res.id, { path: "/" });
+      if(res.Role === 'Admin') {
+        window.location.href = "/admin/dashboard";
+      }
+      if(res.Role === 'Cliente') {
+        window.location.href = "/admin/eventos";
+      }
       toast.success("Inicio de sesión exitoso", {
         position: "bottom-right",
         autoClose: 5000,
@@ -68,13 +74,6 @@ function Login() {
         progress: undefined,
         theme: "colored",
       });
-      cookies.set("token", res.data, { path: "/" });
-      if(res.data.role === 'admin') {
-        window.location.href = "/admin/dashboard";
-      }
-      if(res.data.role === 'user') {
-        window.location.href = "/admin/eventos";
-      }
       
       //window.location.href = "/admin/dashboard";
     } catch (e) {

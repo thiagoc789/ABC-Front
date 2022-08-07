@@ -60,8 +60,7 @@ const Login = () => {
     try {
       const res = await userServices.login(values);
       console.log(res.data);
-
-      toast.success('Inicio de sesión exitoso', {
+      toast.success("Inicio de sesión exitoso", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -82,7 +81,7 @@ const Login = () => {
       //window.location.href = "/admin/dashboard";
     } catch (e) {
       console.log(e);
-      toast.error('Correo electrónico o contraseña incorrectos', {
+      toast.error("Correo electrónico o contraseña incorrectos", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,

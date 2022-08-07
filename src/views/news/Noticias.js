@@ -71,6 +71,7 @@ import BackButton from '../../BackButton';
           onSubmit={formik.handleSubmit}
           {...props}
         >
+        <div className="caja"> <h1 style={{ color:"#F4F3EF" }}> /n </h1></div>
           <Card sx={{ width: '700px', margin: 'auto' }}>
             <Box
               sx={{

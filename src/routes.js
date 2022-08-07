@@ -32,7 +32,7 @@ import UpgradeToPro from "views/Upgrade.js";
 var routes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Reportes",
     icon: "nc-icon nc-layout-11",
     component: Dashboard,
     layout: "/admin",
@@ -60,6 +60,46 @@ var routes = [
     path: "/noticias",
     name: "Noticias",
     icon: "nc-icon nc-single-copy-04",
+    component: Noticias,
+    layout: "/admin",
+  },
+
+  {
+    path: "/actividades",
+    name: "Actividades",
+    icon: "nc-icon nc-bullet-list-67",
+    component: Noticias,
+    layout: "/admin",
+  },
+
+  {
+    path: "/registroActividad",
+    name: "Registro de Act",
+    icon: "nc-icon nc-paper",
+    component: Noticias,
+    layout: "/admin",
+  },
+
+  {
+    path: "/participantes",
+    name: "Participantes",
+    icon: "nc-icon nc-circle-10",
+    component: Noticias,
+    layout: "/admin",
+  },
+
+  {
+    path: "/preinscripción",
+    name: "Preinscripción",
+    icon: "nc-icon nc-user-run",
+    component: Noticias,
+    layout: "/admin",
+  },
+
+  {
+    path: "/calendario",
+    name: "Calendario",
+    icon: "nc-icon nc-calendar-60",
     component: Noticias,
     layout: "/admin",
   },
@@ -106,13 +146,6 @@ var routes = [
     component: Typography,
     layout: "/admin",
   },
-  {
-    pro: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "nc-icon nc-spaceship",
-    component: UpgradeToPro,
-    layout: "/admin",
-  },
+ 
 ];
 export default routes;

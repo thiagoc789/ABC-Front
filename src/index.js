@@ -18,7 +18,7 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ActualizarEvento from "views/ActualizarEvento";
 import Evento from "views/Evento.js";
 import "bootstrap/dist/css/bootstrap.css";
@@ -36,9 +36,8 @@ ReactDOM.render(
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/evento/:id" component={Evento} />;
       <Route path="/actualizarEvento/:id" component={ActualizarEvento} />;
-      <Redirect to="/admin/dashboard" />
+      {/*<Redirect to="/admin/dashboard" />*/}
       <Route path='/' render={() => <Login />} />
-
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

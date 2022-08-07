@@ -7,8 +7,12 @@ class userServices {
   }
   logout(){
     return axios.post(`${ROUTES.USER}/logout/`)
+  } 
+  getUserAuthenticated(){
+    return axios.get(`${ROUTES.USER}/user-authenticated/`)
   }
-  getUsers() {    
+  getUsers() {
+    console.log(ROUTES.USER);
     return axios.get(`${ROUTES.USER}/`);
   }
   createUser(values) {

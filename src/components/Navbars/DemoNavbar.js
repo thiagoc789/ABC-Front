@@ -91,11 +91,10 @@ function Header(props) {
     }
   }, [location]);
 
-
-
-  
-
-  
+  const mostrarUsuarios = async () => {
+    const res = await userServices.getUsers();
+    console.log(res.data);
+  }
 
   return (
     // add or remove classes depending if we are on full-screen-maps page or not

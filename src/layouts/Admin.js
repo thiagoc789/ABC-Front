@@ -25,7 +25,7 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 import routes from "routes.js";
-import Cookies from 'universal-cookie/es6';
+import Cookies from "universal-cookie/es6";
 
 var ps;
 
@@ -37,10 +37,9 @@ function Dashboard(props) {
   const cookies = new Cookies();
 
   React.useEffect(() => {
-
-    if(!cookies.get('token')){
-      window.location.assign('./');
-    };
+    if (!cookies.get("token")) {
+      window.location.assign("/");
+    }
 
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current);
@@ -77,11 +76,24 @@ function Dashboard(props) {
           {routes.map((prop, key) => {
             return (
               <Route
+                exact
                 path={prop.layout + prop.path}
                 component={prop.component}
                 key={key}
               />
             );
+          })}
+          {routes.map((prop, key) => {
+            return prop.subroutes?.map((element, i) => {
+              return (
+                <Route
+                  exact
+                  path={element.layout + element.path}
+                  component={element.component}
+                  key={i}
+                />
+              );
+            });
           })}
         </Switch>
         <Footer fluid />

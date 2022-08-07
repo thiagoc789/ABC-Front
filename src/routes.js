@@ -26,7 +26,9 @@ import Typography from "views/Typography.js";
 import TableList from "views/Tables.js";
 import Maps from "views/Map.js";
 import UserPage from "views/User.js";
-import UpgradeToPro from "views/Upgrade.js";
+import Usuarios from "views/Usuarios/Usuarios";
+import CrearUsuario from "views/Usuarios/CrearUsuario";
+import EditarUsuario from "views/Usuarios/EditarUsuario";
 
 
 var routes = [
@@ -146,6 +148,24 @@ var routes = [
     component: Typography,
     layout: "/admin",
   },
- 
+  {
+    path: "/usuarios",
+    name: "Usuarios",
+    icon: "nc-icon nc-caps-small",
+    component: Usuarios,
+    layout: "/admin",
+    subroutes: [
+      {
+        path: "/usuarios/crear-usuario",
+        component: CrearUsuario,
+        layout: "/admin",
+      },
+      {
+        path: "/usuarios/editar-usuario/:id",
+        component: EditarUsuario,
+        layout: "/admin",
+      },
+    ],
+  },
 ];
 export default routes;

@@ -29,6 +29,8 @@ import UserPage from "views/User.js";
 import Usuarios from "views/Usuarios/Usuarios";
 import CrearUsuario from "views/Usuarios/CrearUsuario";
 import EditarUsuario from "views/Usuarios/EditarUsuario";
+import UpgradeToPro from "views/Upgrade.js";
+import Calendario from "views/Calendario";
 
 var routes = [
   {
@@ -99,7 +101,7 @@ var routes = [
     path: "/calendario",
     name: "Calendario",
     icon: "nc-icon nc-calendar-60",
-    component: Noticias,
+    component: Calendario,
     layout: "/admin",
   },
 

@@ -4,11 +4,10 @@ import { newsDataAll, newsDataComplete, eventSelected, updateNewsData } from '..
 import { useFormik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 //import ResponsiveDatePicker from "../date-picker/date-picker-responsive";
-import { Box, Card, CardContent, CardHeader, Divider, Grid, TextField, TextareaAutosize, MenuItem, Link, CircularProgress } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Divider, Grid, TextField, TextareaAutosize, MenuItem, Link, CircularProgress, Typography, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { NewsDropdown } from './news-dropdown';
 import { ModalAlert } from '../../modals/modalAlert';
-import BackButton from '../../BackButton';
 
 /** 
  * @param {{}} props  
@@ -145,6 +144,23 @@ const NewsUpdateForm = (props) => {
       autoComplete="off"
       {...props}>
       <Card sx={{ width: 'auto', margin: 'auto', marginTop: '70px' }}>
+
+        <Box sx={{ m: 1, gap: '12px', display: 'flex', alignContent: 'left' }}>
+
+          <Typography sx={{ m: 1 }} variant="h4">
+            Registrar Noticias
+          </Typography>
+
+          <Link href="/admin/noticias">
+            <Button color="success" variant="contained">Noticias actuales</Button>
+          </Link>
+
+          <Link href="/admin/noticias/crearNoticia">
+            <Button color="success" variant="contained">Registrar noticias</Button>
+          </Link>
+
+        </Box>
+
         <Divider />
         {!displayForm ?
           <CardContent>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Box, Card, CardContent, Container, Grid, InputAdornment, Pagination, SvgIcon, TextField, Button, Link } from '@mui/material';
+import { Box, Card, CardContent, Container, Grid, InputAdornment, Pagination, SvgIcon, TextField, Typography, Button, Link } from '@mui/material';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import NewsCard from '../news/news-card';
 import { findAllWithWord } from '../../utils/searchInStrings';
+import * as Scroll from 'react-scroll';
 
 const NEWS_PER_PAGE = 6;
 
@@ -20,6 +21,7 @@ export default function ShowNews(props) {
   const [dataNews, setDataNews] = useState();
   const [searchedNews, setSearchedNews] = useState();
   const router = useRouter();
+  let Element   = Scroll.Element;
 
 
   useEffect(() => {
@@ -116,14 +118,21 @@ export default function ShowNews(props) {
 
           <Box sx={{ m: 1, gap: '12px', display: 'flex', alignContent: 'left' }}>
 
+            <Typography sx={{ m: 1 }} variant="h4">
+              Noticias actuales
+            </Typography>
+
             <Link href="/admin/noticias/crearNoticia">
-              <Button color="success" variant="contained">Registrar Noticia</Button>
+              <Button  color="success" variant="contained">Registrar Noticia</Button>
+            </Link>
+
+            <Link href="/admin/noticias/editarNoticia">
+              <Button color="success" variant="contained">Editar Noticia</Button>
             </Link>
 
           </Box>
 
         </Box>
-
         <Box sx={{ pt: 3 }}>
           <Grid container spacing={8}>
             {displayPageElements()}

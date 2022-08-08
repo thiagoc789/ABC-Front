@@ -1,12 +1,11 @@
-//import axios from 'axios'
+import axios from 'axios'
 import * as Yup from 'yup';
-import { Box, Card, CardContent, CardHeader, Divider, Grid, TextField, TextareaAutosize, MenuItem, CircularProgress } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Divider, Grid, TextField, TextareaAutosize, MenuItem, CircularProgress, Typography, Button, Link } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useFormik } from 'formik';
 import { createNews } from '../../utils/newsAxios';
 import { useEffect, useState } from 'react';
 import { ModalAlert } from '../../modals/modalAlert';
-import BackButton from '../../BackButton';
 import { Row } from 'reactstrap';
 
 
@@ -68,6 +67,59 @@ const NewsRegisterForm = (props) => {
     setLoading(!loading)
   }
 
+
+  useEffect(() => {
+    /**
+    * We get the events registered in database
+    * @param {} 
+    */
+    const eventsData = async () => {
+      try {
+        const eventsRequest = await axios.get("http://abc-app-univalle.herokuapp.com/News/")
+        setEventsDataState(eventsRequest.data)
+      }
+      catch (error) {
+        console.log(error)
+        return [null, error]
+      }
+    }
+    /**
+     * This function verifies all validations and insert a news to database
+     * @returns 
+     */
+    const onSubmit = async () => {
+      if (!data) return;
+      try {
+        if (!(formik.values.title == "" || formik.values.media_file == null ||
+          formik.values.description == "" || formik.values.summary == "" ||
+          formik.values.state == "" || formik.values.event_name == "" ||
+          formik.values.finish_date == "")) {
+          if (formik.isValid) {
+            await createNews(formik)
+            setModal(true)
+            formik.resetForm()
+          }
+          setLoading(false)
+          setData(false)
+        }
+        else {
+          setModalError(true);
+        }
+        setLoading(false)
+        setData(false)
+      }
+      catch (error) {
+        console.log(error)
+        setModalError(true)
+        setLoading(false)
+        setData(false)
+      }
+    }
+    onSubmit();
+    eventsData();
+  }, [data])
+
+
   return (
 
     <form
@@ -76,8 +128,26 @@ const NewsRegisterForm = (props) => {
       {...props}
     >
       <div className="content">
+
         <Row>
-          <Card sx={{ width: 'auto', margin: 'auto', marginTop: '70px' }}>
+          <Card sx={{ width: '1100', margin: 'auto', marginTop: '70px' }}>
+
+            <Box sx={{ m: 1, gap: '12px', display: 'flex', alignContent: 'left' }}>
+
+              <Typography sx={{ m: 1 }} variant="h4">
+                Registrar Noticias
+              </Typography>
+
+              <Link href="/admin/noticias">
+                <Button color="success" variant="contained">Noticias actuales</Button>
+              </Link>
+
+              <Link href="/admin/noticias/editarNoticia">
+                <Button color="success" variant="contained">Editar Noticia</Button>
+              </Link>
+
+            </Box>
+
             <Divider />
 
             <CardContent>

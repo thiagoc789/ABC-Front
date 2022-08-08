@@ -10,7 +10,7 @@ const NewsListToolbar = (props) => {
   const styles = useStyles();
   const router = useRouter();
   const showButtons = () => {
-    if (!true) return (<></>);
+    if (!props.isEmployee) return (<></>);
     return (
       <Box sx={{ m: 1, gap: '12px', display: 'flex' }}>
         <Button color="primary" variant="contained"

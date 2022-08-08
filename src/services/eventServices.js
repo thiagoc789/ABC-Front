@@ -27,6 +27,9 @@ class userServices {
   deleteUser(id) {
     return axios.delete(`${ROUTES.USER}/${id}`);
   }
+  getEvents() {
+    return axios.get(`${ROUTES.EVENTS}/`)
+  }
 }
 
 export default new userServices();

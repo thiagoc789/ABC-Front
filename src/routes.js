@@ -34,7 +34,7 @@ import CrearUsuario from "views/Usuarios/CrearUsuario";
 import EditarUsuario from "views/Usuarios/EditarUsuario";
 import UpgradeToPro from "views/Upgrade.js";
 import Calendario from "views/Calendario";
-import Evento from "views/Evento.js";
+import Evento from "views/DetalleEvento";
 import ActualizarEvento from "views/ActualizarEvento.js";
 
 var routes = [

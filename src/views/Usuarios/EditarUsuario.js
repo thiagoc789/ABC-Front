@@ -47,7 +47,6 @@ function EditarUsuario({match}) {
       action={updateUser}
       infoEdit={user}
     />
-    <h1>{match.params.id}</h1>
     </>
   );
 }

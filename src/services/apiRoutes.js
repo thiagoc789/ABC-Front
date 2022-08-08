@@ -9,7 +9,8 @@ const DNS = {
 
 const ROUTES = {
   USER: `${DNS.host}/User`,
-  EVENTS: `${DNS.host}/Events`
+  EVENTS: `${DNS.host}/Events`,
+  NEWS: `${DNS.host}/News`,
   
 };
 export default ROUTES;

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Grid, TextField, MenuItem, CircularProgress } from '@mui/material';
 import { useEffect, useState } from "react";
+import newsServices from "services/newsServices";
 
 /**
  * Component that shows news registered in the database in a dropdown 
@@ -17,8 +18,8 @@ export const NewsDropdown = ({ newsNameState, setNewsNameState }) => {
 
     const newsData = async () => {
       try {
-        const newsRequest = await axios.get("http://abc-app-univalle.herokuapp.com/News/")
-        setNewsData(newsRequest.data)
+        const request = await newsServices.getNews();
+        setNewsData(request.data)
       }
       catch (error) {
         console.log(error)

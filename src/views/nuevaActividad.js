@@ -108,7 +108,7 @@
                                       <input
                                         type="text"
                                         className="form-control"
-                                        id="state"
+                                        id="comienzo"
                                         required
                                         value={tutorial.content}
                                         onChange={handleInputChange}
@@ -121,7 +121,7 @@
                                       <input
                                         type="text"
                                         className="form-control"
-                                        id="Space"
+                                        id="fin"
                                         required
                                         value={tutorial.content}
                                         onChange={handleInputChange}
@@ -130,7 +130,7 @@
                                     </div>
 
                                     
-                                    <button style={{ color:"#212120" }}onClick={saveTutorial} className="btn btn-success">
+                                    <button style={{ color:"#212120" }} className="btn btn-succes">
                                       Crear nueva actividad 
                                     </button>
                                   </div>

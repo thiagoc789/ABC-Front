@@ -14,9 +14,9 @@ import {
   Row,
 } from "reactstrap";
 import * as Yup from "yup";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
-export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
+export const ClientRegisterForm = ({ title, buttonText, action }) => {
   const UserSchema = Yup.object().shape({
     Name: Yup.string().required("Campo requerido"),
     Last_name: Yup.string().required("Campo requerido"),
@@ -29,7 +29,6 @@ export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
     confirm_password: Yup.string()
       .max(8, "No debe superar los 8 caracteres")
       .required("Campo requerido"),
-    Role: Yup.string().required("Campo requerido"),
     Phone: Yup.number()
       .typeError("Solo números")
       .max(9999999999)
@@ -39,15 +38,13 @@ export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
 
   const formik = useFormik({
     initialValues: {
-      Name: infoEdit ? infoEdit.Name : "",
-      Last_name: infoEdit ? infoEdit.Last_name : "",
-      Email: infoEdit ? infoEdit.Email : "",
-      Password: infoEdit ? infoEdit.Password : "",
-      confirm_password: infoEdit ? infoEdit.confirm_password : "",
-      Role: infoEdit ? infoEdit.Role : "Admin",
-      Phone: infoEdit ? infoEdit.Phone : "",
+      Name: "",
+      Last_name: "",
+      Email: "",
+      Password: "",
+      confirm_password: "",
+      Phone: "",
     },
-    enableReinitialize: infoEdit ? true : false,
     validationSchema: UserSchema,
     onSubmit: (values) => {
       // eslint-disable-next-line no-unused-vars
@@ -55,7 +52,7 @@ export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
       const {Password, confirm_password, ...rest } = values;
       if(Password===confirm_password) {
         const {confirm_password, ...rest } = values;
-        const final_data = {State: true, ...rest}
+        const final_data = {State: true, Role: 'Cliente', ...rest}
         action(final_data);
       } else {
         toast.success("Contraseñas no coinciden", {
@@ -74,7 +71,6 @@ export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
   return (
     <>
       <div className="content">
-        <ToastContainer />
         <Card className="card-user">
           <CardHeader>
             <CardTitle tag="h5">{title}</CardTitle>
@@ -230,35 +226,10 @@ export const CreateEditUser = ({ title, buttonText, action, infoEdit }) => {
                     <FormFeedback>{formik.errors.Phone}</FormFeedback>
                   </FormGroup>
                 </Col>
-                <Col md="6">
-                  <FormGroup>
-                    <label>Cargo</label>
-                    <Input
-                      placeholder="Cargo"
-                      type="select"
-                      id="Role"
-                      name="Role"
-                      value={formik.values.Role}
-                      onChange={formik.handleChange}
-                      className={`form-control ${
-                        formik.touched.Role && formik.errors.Role
-                          ? "is-invalid"
-                          : ""
-                      }`}
-                      onBlur={formik.handleBlur}
-                      invalid={formik.touched.Role && !!formik.errors.Role}
-                    >
-                      <option>Admin</option>
-                      <option>Gerente</option>
-                      <option>Operador</option>
-                    </Input>
-                    <FormFeedback>{formik.errors.Role}</FormFeedback>
-                  </FormGroup>
-                </Col>
               </Row>
               <Row className="justify-content-center">
                 <div className="update">
-                  <Link to="/admin/usuarios">
+                  <Link to="/">
                     <Button className="btn-round" color="primary">
                       <i className="nc-icon nc-minimal-left" />
                       &nbsp; Regresar

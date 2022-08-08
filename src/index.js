@@ -26,7 +26,8 @@ import "assets/scss/paper-dashboard.scss?v=1.3.0";
 import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import Login from "views/Login";
-import AdminLayout from '../src/layouts/Admin'
+import AdminLayout from '../src/layouts/Admin';
+import ClientRegister from 'views/ClientRegister';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -34,9 +35,11 @@ ReactDOM.render(
       {/*<Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Redirect to="/admin/dashboard" />*/}
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-
+      <Route path="/evento/:id" component={Evento} />
+      <Route path="/actualizarEvento/:id" component={ActualizarEvento} />
       {/*<Redirect to="/admin/dashboard" />*/}
-      <Route path='/' render={() => <Login />} />
+      <Route exact path='/' render={() => <Login />} />
+      <Route exact path='/registrar' render={() => <ClientRegister />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

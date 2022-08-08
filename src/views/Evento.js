@@ -12,122 +12,105 @@ import eventServices from "services/eventServices";
 import routes from "routes.js";
 import { Card, Button } from "react-bootstrap";
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import Map from "./Map";
+import Geocode from "react-geocode";
+import Container from '@material-ui/core/Container';
+
+
 
 
 var ps;
 
-function Dashboard(props) {
-    const [backgroundColor, setBackgroundColor] = React.useState("black");
-    const [activeColor, setActiveColor] = React.useState("info");
-    const mainPanel = React.useRef();
-    const location = useLocation();
-    React.useEffect(() => {
-        if (navigator.platform.indexOf("Win") > -1) {
-            ps = new PerfectScrollbar(mainPanel.current);
-            document.body.classList.toggle("perfect-scrollbar-on");
-        }
-        return function cleanup() {
-            if (navigator.platform.indexOf("Win") > -1) {
-                ps.destroy();
-                document.body.classList.toggle("perfect-scrollbar-on");
-            }
-        };
-    });
-    React.useEffect(() => {
-        mainPanel.current.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-    }, [location]);
-    const handleActiveClick = (color) => {
-        setActiveColor(color);
-    };
-    const handleBgClick = (color) => {
-        setBackgroundColor(color);
-    };
+const MapWrapper = () => {
+    Geocode.setApiKey("AIzaSyCEzk_CRJKjrINp-2z_2CnrxPbfFj_P48U");
+    Geocode.setLanguage("en");
+    Geocode.setRegion("es");
+    Geocode.setLocationType("ROOFTOP");
+    Geocode.enableDebug();
 
     const { id } = useParams();
     const [movies, setMovies] = useState([]);
-
     useEffect(() => {
         refreshMovies();
     }, []);
 
     const refreshMovies = () => {
-        eventServices.getSingleUser(id)
+        axios.get(`http://abc-app-univalle.herokuapp.com/Events/${id}/`)
             .then((res) => {
                 setMovies(res.data);
                 console.log(movies);
             })
             .catch(console.error);
     };
-    const onDelete = (id) => {
-        eventServices.deleteUser(id).then((res) => refreshMovies());
-    };
-    const selectMovie = (id) => {
-        eventServices.getSingleUser(id).then((res) => console.log(res.data));
-    }
 
+    Geocode.fromAddress(movies.Space).then(
+        (response) => {
+            let{ lat, lng } = response.results[0].geometry.location;
+            console.log(movies.Space)
+            console.log(lat, lng);
+        },
+        (error) => {
+            console.error(error);
+        }
+    );
+
+    const location = {
+        address: movies.Space,
+        lat: 3.43722,
+        lng: -76.5225,
+    }
 
     return (
 
+        <Container component="main" maxWidth="m">
+            <div className="caja"> <h1 style={{ color: "#F4F3EF" }}> /n </h1></div>
         <div className="wrapper">
             <p class="h2 text-center">Lista De Eventos</p>
             <div class="col-md-30 bg-light text-center">
-                <a class="btn" href="nuevoEvento">Nuevo Evento</a>
                 <body class="m-0 row justify-content-center">
                     <div class="col-md-30 bg-light text-center">
                         <Card style={{ width: '20rem' }}>
                             <Card.Text>
+                                Evento Numero:  
                                 {movies.id}
                             </Card.Text>
-                            <Card.Img variant="top" src={movies.image} />
+                            <Card.Img variant="top" src={movies.Media_file} />
                             <Card.Body >
-                                <Card.Title>{movies.title}</Card.Title>
+                                <Card.Title>{movies.Title}</Card.Title>
                                 <Card.Text>
-                                    {movies.content}
+                                    {movies.details}
+                                </Card.Text>
+                                <Card.Text>
+                                    Costo:    
+                                    {movies.Cost}
+                                </Card.Text>
+                                <Card.Text>
+                                    Inicia:   
+                                    {movies.Start_date}
+                                </Card.Text>
+                                <Card.Text>
+                                    Finaliza:   
+                                    {movies.Finish_date}
                                 </Card.Text>
                                 <Card.Text>
                                     {movies.created_at}
                                 </Card.Text>
-                                <Button variant="primary">Detalles</Button>
-                                <button onClick={() => selectMovie(movies.id)} type="button" class="btn btn-info">Editar</button>
-                                <button onClick={() => onDelete(movies.id)} type="button" class="btn btn-danger">Eliminar</button>
                             </Card.Body>
                         </Card>
                     </div>
+
                 </body>
-
+                <div class="col-md-12 bg-light text-center">
+                <Map location={location} zoomLevel={10} />
+                </div>
             </div>
+            
 
-            <Sidebar
-                {...props}
-                routes={routes}
-                bgColor={backgroundColor}
-                activeColor={activeColor}
-            />
-            <div className="main-panel" ref={mainPanel}>
-                <DemoNavbar {...props} />
-                <Switch>
-                    {routes.map((prop, key) => {
-                        return (
-                            <Route
-                                path={prop.layout + prop.path}
-                                component={prop.component}
-                                key={key}
-                            />
-                        );
-                    })}
-                </Switch>
-            </div>
-            <FixedPlugin
-                bgColor={backgroundColor}
-                activeColor={activeColor}
-                handleActiveClick={handleActiveClick}
-                handleBgClick={handleBgClick}
-
-            />
         </div>
-
+        </Container>
     );
 }
 
-export default Dashboard;
+export default MapWrapper;

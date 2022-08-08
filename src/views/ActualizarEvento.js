@@ -9,44 +9,21 @@ import eventServices from "services/eventServices";
 import Container from '@material-ui/core/Container';
 import routes from "routes.js";
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 
 var ps;
 
 function Dashboard(props) {
-  const [backgroundColor, setBackgroundColor] = React.useState("black");
-  const [activeColor, setActiveColor] = React.useState("info");
-  const mainPanel = React.useRef();
-  const location = useLocation();
-  React.useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(mainPanel.current);
-      document.body.classList.toggle("perfect-scrollbar-on");
-    }
-    return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
-        document.body.classList.toggle("perfect-scrollbar-on");
-      }
-    };
-  });
-  React.useEffect(() => {
-    mainPanel.current.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-  }, [location]);
-  const handleActiveClick = (color) => {
-    setActiveColor(color);
-  };
-  const handleBgClick = (color) => {
-    setBackgroundColor(color);
-  };
+ 
 
   const { id } = useParams();
 
   const initialTutorialState = {
-    title: "",
-    content: "",
-    image: ""
+    Title: "",
+    Details: "",
+    Space: "",
+    Cost: ""
   };
 
   const [imagen, setImagen] = useState("");
@@ -62,9 +39,10 @@ function Dashboard(props) {
 
   const saveTutorial = () => {
     let form_data = new FormData();
-    form_data.append('title:', tutorial.title);
-    form_data.append('content:', tutorial.content);
-    form_data.append('image:', tutorial.image);
+    form_data.append('Title:', tutorial.Title);
+    form_data.append('Details:', tutorial.Details);
+    form_data.append('Space:', tutorial.Space);
+    form_data.append('Cost:', tutorial.Cost);
     console.log(form_data)
     eventServices.updateUser(id, form_data);
     
@@ -75,17 +53,13 @@ function Dashboard(props) {
   }, []);
 
   const refreshMovies = () => {
-    eventServices.getSingleUser(id)
+    axios.get(`http://abc-app-univalle.herokuapp.com/Events/${id}/`)
       .then((res) => {
         setTutorial(res.data);
+        
       })
       .catch(console.error);
   };
-
-
-
-
-
 
   const uploadImage = () => {
     const data = new FormData()
@@ -104,11 +78,10 @@ function Dashboard(props) {
 
   }
 
-
-
   return (
 
     <div className="wrapper">
+      <div className="caja"> <h1 style={{ color: "#F4F3EF" }}> /n </h1></div>
       <p class="h2 text-center">Actualizar Evento</p>
       <div class="col-md-30 bg-light text-center">
         <a class="btn" href="nuevoEvento">{id}</a>
@@ -132,7 +105,7 @@ function Dashboard(props) {
               className="form-control"
               id="title"
               required
-              value={tutorial.title}
+              value={tutorial.Title}
               onChange={handleInputChange}
               name="title"
             />
@@ -144,7 +117,7 @@ function Dashboard(props) {
               className="form-control"
               id="content"
               required
-              value={tutorial.content}
+              value={tutorial.Details}
               onChange={handleInputChange}
               name="content"
             />
@@ -159,8 +132,11 @@ function Dashboard(props) {
               onChange={(e) => setImagen(e.target.files[0])}
             />
           </div>
-
-        <button onClick={uploadImage}>Upload</button> 
+          <div class="input-group-btn">
+                  <button style={{ color: "#212120" }} className="btn btn-success" onClick={uploadImage}>
+                    <b>Upload</b>
+                  </button>
+                </div>
 
         <img src={url} />
         {url.length>0 && <p>{url}</p>}
@@ -173,36 +149,7 @@ function Dashboard(props) {
     </Container>
           </div>
         </body>
-
       </div>
-
-      <Sidebar
-        {...props}
-        routes={routes}
-        bgColor={backgroundColor}
-        activeColor={activeColor}
-      />
-      <div className="main-panel" ref={mainPanel}>
-        <DemoNavbar {...props} />
-        <Switch>
-          {routes.map((prop, key) => {
-            return (
-              <Route
-                path={prop.layout + prop.path}
-                component={prop.component}
-                key={key}
-              />
-            );
-          })}
-        </Switch>
-      </div>
-      <FixedPlugin
-        bgColor={backgroundColor}
-        activeColor={activeColor}
-        handleActiveClick={handleActiveClick}
-        handleBgClick={handleBgClick}
-
-      />
     </div>
 
   );

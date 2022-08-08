@@ -21,6 +21,9 @@ import Eventos from "views/Eventos.js";
 import NuevoEvento from "views/nuevoEvento.js";
 import NuevaActividad from "views/nuevaActividad.js";
 import Noticias from "views/news/Noticias.js"
+import NewsRegisterForm from "views/news/crearNoticia"
+import editarNoticia from "views/news/editarNoticia"
+import VerNoticias from "views/news/mostrarNoticia.js"
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
@@ -41,7 +44,8 @@ var routes = [
     component: Dashboard,
     layout: "/admin",
   },
-  
+
+
   {
     path: "/nuevoEvento",
     name: "nuevo Evento",
@@ -58,13 +62,6 @@ var routes = [
     layout: "/admin",
   },
 
-  {
-    path: "/noticias",
-    name: "Noticias",
-    icon: "nc-icon nc-single-copy-04",
-    component: Noticias,
-    layout: "/admin",
-  },
 
   {
     path: "/actividades",
@@ -104,6 +101,26 @@ var routes = [
     icon: "nc-icon nc-calendar-60",
     component: Calendario,
     layout: "/admin",
+  },
+
+  {
+    name: "Ver Noticias",
+    path: "/noticias",
+    icon: "nc-icon nc-single-copy-04",
+    component: VerNoticias,
+    layout: "/admin",
+    subroutes: [
+      {
+        path: "/noticias/crearNoticia",
+        component: NewsRegisterForm,
+        layout: "/admin",
+      },
+      {
+        path: "/noticias/editarNoticia",
+        component: editarNoticia,
+        layout: "/admin",
+      },
+    ],
   },
 
   {

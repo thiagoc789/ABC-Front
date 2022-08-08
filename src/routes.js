@@ -37,6 +37,7 @@ import UpgradeToPro from "views/Upgrade.js";
 import Calendario from "views/Calendario";
 import Participantes from "views/Participantes"
 import Evento from "views/Evento.js";
+import Evento from "views/DetalleEvento";
 import ActualizarEvento from "views/ActualizarEvento.js";
 var routes = [
   {

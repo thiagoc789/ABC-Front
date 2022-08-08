@@ -41,10 +41,12 @@ function Dashboard(props) {
     let form_data = new FormData();
     form_data.append('Title:', tutorial.Title);
     form_data.append('Details:', tutorial.Details);
+    form_data.append('State:', tutorial.Details);
     form_data.append('Space:', tutorial.Space);
     form_data.append('Cost:', tutorial.Cost);
     console.log(form_data)
-    eventServices.updateUser(id, form_data);
+    axios.put(`http://abc-app-univalle.herokuapp.com/Events/${id}/`, form_data);
+    window.location.href = `/admin/evento/${id}`
     
   };
 
@@ -82,9 +84,8 @@ function Dashboard(props) {
 
     <div className="wrapper">
       <div className="caja"> <h1 style={{ color: "#F4F3EF" }}> /n </h1></div>
-      <p class="h2 text-center">Actualizar Evento</p>
+      <p class="h2 text-center">Actualizar Evento {id}</p>
       <div class="col-md-30 bg-light text-center">
-        <a class="btn" href="nuevoEvento">{id}</a>
         <body class="m-0 row justify-content-center">
           <div class="col-md-30 bg-light text-center">
           <Container component="main" maxWidth="xs">
@@ -99,7 +100,7 @@ function Dashboard(props) {
       ) : (
         <div>
           <div className="form-group">
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">Titulo</label>
             <input
               type="text"
               className="form-control"
@@ -111,17 +112,58 @@ function Dashboard(props) {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="content">Content</label>
+            <label htmlFor="content">Detalles</label>
             <input
               type="text"
               className="form-control"
-              id="content"
+              id="Details"
               required
               value={tutorial.Details}
               onChange={handleInputChange}
               name="content"
             />
           </div>
+
+          <div className="form-group">
+            <label htmlFor="content">Estado</label>
+            <input
+              type="text"
+              className="form-control"
+              id="State"
+              required
+              value={tutorial.Details}
+              onChange={handleInputChange}
+              name="content"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="content">Ubicacion</label>
+            <input
+              type="text"
+              className="form-control"
+              id="Space"
+              required
+              value={tutorial.Space}
+              onChange={handleInputChange}
+              name="content"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="content">Costo</label>
+            <input
+              type="text"
+              className="form-control"
+              id="Cost"
+              required
+              value={tutorial.Cost}
+              onChange={handleInputChange}
+              name="content"
+            />
+          </div>
+
+          
 
           <div className="form-group">
             <label htmlFor="content">Subir imagen</label>

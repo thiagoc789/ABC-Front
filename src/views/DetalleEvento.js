@@ -19,8 +19,6 @@ import Geocode from "react-geocode";
 import Container from '@material-ui/core/Container';
 
 
-
-
 var ps;
 
 const MapWrapper = () => {

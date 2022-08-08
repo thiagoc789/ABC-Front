@@ -13,6 +13,7 @@ import {
   Row,
   FormFeedback,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -191,6 +192,15 @@ function Login() {
                     >
                       Iniciar sesion
                     </Button>
+                    <Link to = "/registrar">
+                    <Button
+                      className="btn-round"
+                      color="success"
+                      
+                    >
+                      Registrar
+                    </Button>
+                    </Link>
                     <ToastContainer />
                   </div>
                 </Row>

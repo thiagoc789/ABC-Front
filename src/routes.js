@@ -19,6 +19,7 @@
 import Dashboard from "views/Dashboard.js";
 import Eventos from "views/Eventos.js";
 import NuevoEvento from "views/nuevoEvento.js";
+import NuevaActividad from "views/nuevaActividad.js";
 import Noticias from "views/news/Noticias.js"
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
@@ -69,7 +70,7 @@ var routes = [
     path: "/actividades",
     name: "Actividades",
     icon: "nc-icon nc-bullet-list-67",
-    component: Noticias,
+    component: NuevaActividad,
     layout: "/admin",
   },
 

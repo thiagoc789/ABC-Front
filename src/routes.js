@@ -36,6 +36,8 @@ import EditarUsuario from "views/Usuarios/EditarUsuario";
 import UpgradeToPro from "views/Upgrade.js";
 import Calendario from "views/Calendario";
 import Participantes from "views/Participantes"
+import Evento from "views/Evento.js";
+import ActualizarEvento from "views/ActualizarEvento.js";
 var routes = [
   {
     path: "/dashboard",
@@ -53,13 +55,25 @@ var routes = [
     component: NuevoEvento,
     layout: "/admin",
   },
-  
+
   {
     path: "/eventos",
     name: "Eventos",
     icon: "nc-icon nc-tap-01",
     component: Eventos,
     layout: "/admin",
+    subroutes: [
+      {
+        path: "/evento/:id",
+        component: Evento,
+        layout: "/admin",
+      },
+      {
+        path: "/actualizar/:id",
+        component: ActualizarEvento,
+        layout: "/admin",
+      }
+    ]
   },
 
 

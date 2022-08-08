@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import eventServices from "services/eventServices";
-import {Card} from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import axios from 'axios';
+import React from "react";
 
 import {
   Row,
@@ -19,7 +21,7 @@ const AddMovie = ({ onAdd }) => {
   }, []);
 
   const refreshMovies = () => {
-    eventServices.getUsers()
+    axios.get("http://abc-app-univalle.herokuapp.com/Events/")
       .then((res) => {
         setMovies(res.data);
       })
@@ -27,15 +29,16 @@ const AddMovie = ({ onAdd }) => {
   };
 
   const onDelete = (id) => {
-    eventServices.deleteUser(id).then((res) => refreshMovies());
+    axios.delete(`http://abc-app-univalle.herokuapp.com/Events/${id}/`).then((res) => refreshMovies());
   };
 
   const selectMovie = async (id) => {
-    eventServices.getSingleUser(id).then((res) => window.location.href = `/evento/${id}`);
+    axios.get(`http://abc-app-univalle.herokuapp.com/Events/${id}/`).then((res) => window.location.href = `/admin/evento/${id}`);
+
   }
 
   const updateMovie = async (id) => {
-    eventServices.getSingleUser(id).then((res) => window.location.href = `/actualizarEvento/${id}`);
+    axios.get(`http://abc-app-univalle.herokuapp.com/Events/${id}/`).then((res) => window.location.href = `/admin/actualizar/${id}`);
   }
 
   return (
@@ -52,11 +55,11 @@ const AddMovie = ({ onAdd }) => {
                   <Card.Text>
                     {movie.id}
                   </Card.Text>
-                  <Card.Img variant="top" src={movie.image} />
+                  <Card.Img variant="top" src={movie.Media_file} />
                   <Card.Body >
-                    <Card.Title>{movie.title}</Card.Title>
+                    <Card.Title>{movie.Title}</Card.Title>
                     <Card.Text>
-                      {movie.content}
+                      {movie.Details}
                     </Card.Text>
                     <Card.Text>
                       {movie.created_at}
@@ -77,9 +80,9 @@ const AddMovie = ({ onAdd }) => {
       </div>
 
 
-  </div>
-      
-    
+    </div>
+
+
   );
 };
 

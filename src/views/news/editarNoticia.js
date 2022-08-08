@@ -8,6 +8,11 @@ import { Box, Card, CardContent, CardHeader, Divider, Grid, TextField, TextareaA
 import { useEffect, useState } from 'react';
 import { NewsDropdown } from './news-dropdown';
 import { ModalAlert } from '../../modals/modalAlert';
+import newsServices from 'services/newsServices';
+import eventServices from 'services/eventServices';
+import { toast, ToastContainer } from 'react-toastify';
+import { useHistory } from 'react-router';
+import Cookies from 'universal-cookie';
 
 /** 
  * @param {{}} props  
@@ -28,37 +33,47 @@ const NewsUpdateForm = (props) => {
   const [modalError, setModalError] = useState(false);
   const [eventsDataState, setEventsDataState] = useState();
   const states = ['Activo', 'Inactivo']
+  const history = useHistory();
+  const cookies = new Cookies();
+  const ID_user = cookies.get("token");
   const date = new Date()
+
+  useEffect(() => {
+    console.log(newsDataComplete);
+    const eventsData = async () => {
+      try {
+        const eventsRequest = await eventServices.getEvents();
+        console.log(eventsRequest.data);
+        setEventsDataState(eventsRequest.data);
+      } catch (error) {
+        console.log(error);
+        return [null, error];
+      }
+    };
+    eventsData();
+  },[])
 
   const validationSchema = Yup.object({
     title: Yup
       .string().required('Porfavor ingrese un título').max(500),
     description: Yup
       .string().required('Requerido'),
-    event_name: Yup
+    ID_event: Yup
       .string().required('Requerido'),
     summary: Yup
       .string().required('Es necesario escribir un resumen'),
-    media_file: Yup
-      .object().required('Porfavor seleccione al menos 1 archivo (jpg,jpeg,mp4,mkv)'),
     state: Yup
       .string().required("Requerido"),
-    finish_date: Yup
-      .string().required("Requerido")
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id: newsDataComplete.id,
-      title: newsDataComplete.Title,
-      description: newsDataComplete.Description,
-      summary: newsDataComplete.Summary,
-      state: newsDataComplete.State,
-      event_name: eventSelected,
-      media_file: newsDataComplete.Media_file,
-      edition_date: date.getFullYear() + '-' + parseInt(date.getMonth() + 1) + "-" + date.getDate(),
-      finish_date: newsDataComplete.Finish_date
+      Title: newsDataComplete.Title,
+      Description: newsDataComplete.Description,
+      Summary: newsDataComplete.Summary,
+      State: newsDataComplete.State,
+      ID_event: newsDataComplete.ID_event,
     },
     validationSchema: validationSchema,
   });
@@ -77,21 +92,11 @@ const NewsUpdateForm = (props) => {
   }
 
   useEffect(() => {
-
     /**
     * We get the events registered in database
     * @param {} 
     */
-    const eventsData = async () => {
-      try {
-        const eventsRequest = await axios.get("http://abc-app-univalle.herokuapp.com/News/")
-        setEventsDataState(eventsRequest.data)
-      }
-      catch (error) {
-        console.log(error)
-        return [null, error]
-      }
-    }
+    
 
     /**
      * This function verifies all validations and insert a news to database
@@ -120,7 +125,6 @@ const NewsUpdateForm = (props) => {
       }
     }
     onSubmit();
-    eventsData()
   }, [data])
 
 
@@ -139,10 +143,60 @@ const NewsUpdateForm = (props) => {
     setData(true);
   }
 
+  const updateNews = async () => {
+    if (
+      (formik.values.Description !== "" &&
+        formik.values.ID_event !== "" &&
+        formik.values.Title !== "",
+      formik.values.Summary !== "")
+    ) {
+      console.log(formik.values);
+      const date = new Date();
+      const data = {
+        Description: formik.values.Description,
+        Edition_date:
+          date.getFullYear() +
+          "-" +
+          parseInt(date.getMonth() + 1) +
+          "-" +
+          date.getDate(),
+        Finish_date:
+          date.getFullYear() +
+          "-" +
+          parseInt(date.getMonth() + 1) +
+          "-" +
+          date.getDate(),
+        ID_event: formik.values.ID_event,
+        ID_user: ID_user,
+        Media_file: "",
+        State: formik.values.State,
+        Summary: formik.values.Summary,
+        Title: formik.values.Title,
+      };
+      try{
+        await newsServices.updateNews(newsDataComplete.id, data);
+        toast.success("Noticia actualizada", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        history.push('/admin/noticias');
+      }catch(e) {
+        console.log(e);
+      }
+    }
+  };
+
   return (
     <form
       autoComplete="off"
       {...props}>
+        <ToastContainer />
       <Card sx={{ width: 'auto', margin: 'auto', marginTop: '70px' }}>
 
         <Box sx={{ m: 1, gap: '12px', display: 'flex', alignContent: 'left' }}>
@@ -185,34 +239,36 @@ const NewsUpdateForm = (props) => {
                   <TextField
                     sx={{ marginTop: '0.9rem' }}
                     fullWidth
-                    error={Boolean(formik.touched.title && formik.errors.title)}
-                    helperText={formik.touched.title && formik.errors.title}
+                    error={Boolean(formik.touched.Title && formik.errors.Title)}
+                    helperText={formik.touched.Title && formik.errors.Title}
                     label="Título"
-                    name="title"
+                    name="Title"
                     onBlur={formik.handleBlur}
-                    onChange={(event) => { formik.setFieldValue("title", event.target.value) && setNewsTitle(true) }}
+                    onChange={(event) => { formik.setFieldValue("Title", event.target.value) && setNewsTitle(true) }}
                     required
-                    value={!newsTitle ? newsDataComplete.Title : formik.values.title}
+                    value={!newsTitle ? newsDataComplete.Title : formik.values.Title}
                     variant="outlined"
                   />
                 </Grid>
                 <Grid item md={6} xs={12} >
-                  <TextField
-                    sx={{ marginTop: '0.9rem' }}
+                <TextField
                     fullWidth
-                    id="event_name"
-                    name="event_name"
+                    id="ID_event"
+                    name="ID_event"
                     label="Seleccione el evento *"
                     select
-                    error={Boolean(formik.touched.event_name && formik.errors.event_name)}
-                    helperText={formik.touched.event_name && formik.errors.event_name}
-                    value={!nameEvent ? eventSelected : formik.values.event_name}
-                    onChange={(event) => formik.setFieldValue("event_name", event.target.value) && setNameEvent(true)}
+                    error={Boolean(
+                      formik.touched.ID_event && formik.errors.ID_event
+                    )}
+                    helperText={
+                      formik.touched.ID_event && formik.errors.ID_event
+                    }
+                    value={formik.values.ID_event}
+                    onChange={formik.handleChange}
                     variant="outlined"
-
                   >
                     {eventsDataState ?
-                      eventsDataState.map((option, key) => (<MenuItem value={option.Title} key={key}>{option.Title}</MenuItem>)) :
+                      eventsDataState.map((option, key) => (<MenuItem value={option.id} key={key}>{option.Title}</MenuItem>)) :
                       <MenuItem disabled value="default" key="default"><CircularProgress sx={{ margin: 'auto' }}></CircularProgress> </MenuItem>
                     }
                   </TextField>
@@ -221,27 +277,28 @@ const NewsUpdateForm = (props) => {
                   <TextField
                     fullWidth
                     label="Resumen"
-                    name="summary"
+                    name="Summary"
+                    id='Summary'
                     required
                     variant="outlined"
-                    error={Boolean(formik.touched.summary && formik.errors.summary)}
-                    helperText={formik.touched.summary && formik.errors.summary}
-                    value={!newsSummary ? newsDataComplete.Summary : formik.values.summary}
-                    onChange={(event) => formik.setFieldValue("summary", event.target.value) && setNewsSummary(true)}
+                    error={Boolean(formik.touched.Summary && formik.errors.Summary)}
+                    helperText={formik.touched.Summary && formik.errors.Summary}
+                    value={!newsSummary ? newsDataComplete.Summary : formik.values.Summary}
+                    onChange={(event) => formik.setFieldValue("Summary", event.target.value) && setNewsSummary(true)}
                     onBlur={formik.handleBlur}
                   />
                 </Grid>
                 <Grid item md={6} xs={12} >
                   <TextField
                     fullWidth
-                    id="state"
-                    name="state"
+                    id="State"
+                    name="State"
                     label="Seleccione el estado *"
                     select
-                    error={Boolean(formik.touched.state && formik.errors.state)}
-                    helperText={formik.touched.state && formik.errors.state}
-                    value={!newsState ? newsDataComplete.State : formik.values.state}
-                    onChange={(event) => formik.setFieldValue("state", event.target.value) && setNewsState(true)}
+                    error={Boolean(formik.touched.State && formik.errors.State)}
+                    helperText={formik.touched.State && formik.errors.State}
+                    value={!newsState ? newsDataComplete.State : formik.values.State}
+                    onChange={(event) => formik.setFieldValue("State", event.target.value) && setNewsState(true)}
                     variant="outlined"
                   >
                     {states.map((option, key) => (
@@ -251,7 +308,7 @@ const NewsUpdateForm = (props) => {
                 </Grid>
                 <Grid item md={12} xs={12} sx={{ float: 'left', width: '50%' }}>
                   <TextareaAutosize
-                    id="description"
+                    id="Description"
                     maxRows={10000}
                     style={formik.errors.description && formik.touched.description ? {
                       height: '9.3rem',
@@ -288,7 +345,7 @@ const NewsUpdateForm = (props) => {
                         background: 'transparent'
                       }}
                     aria-label="Descripcion"
-                    name="description"
+                    name="Description"
                     placeholder='Detalles *'
                     onChange={(event) => formik.setFieldValue("description", event.target.value) && setNewsDescription(true)}
                     onBlur={formik.handleBlur}
@@ -312,15 +369,15 @@ const NewsUpdateForm = (props) => {
               <div>
                 <input
                   style={{ display: 'none' }}
-                  id="media_file"
+                  id="Media_file"
                   type="file"
                   accept='.png, .jpg, jpeg, .mp4, .mkv'
-                  name="media_file"
+                  name="Media_file"
                   required
                   onChange={(event) => formik.setFieldValue("media_file", event.target.files[0])}
                 >
                 </input>
-                {formik.errors.media_file && formik.touched.media_file ?
+                {formik.errors.Media_file && formik.touched.Media_file ?
                   <div style={{ color: '#e76063', fontSize: '0.75rem' }}>{formik.errors.media_file}</div>
                   : null}
               </div>
@@ -328,7 +385,7 @@ const NewsUpdateForm = (props) => {
                 loading={loading}
                 color="success"
                 variant="contained"
-                onClick={(e) => { markErrors(e) && setLoading(!loading) }}>
+                onClick={() => { updateNews()}}>
                 Actualizar Noticia
               </LoadingButton>
             </Box>

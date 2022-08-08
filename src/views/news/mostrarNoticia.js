@@ -5,6 +5,7 @@ import axios from 'axios';
 import NewsCard from '../news/news-card';
 import { findAllWithWord } from '../../utils/searchInStrings';
 import * as Scroll from 'react-scroll';
+import newsServices from 'services/newsServices';
 
 const NEWS_PER_PAGE = 6;
 
@@ -29,14 +30,15 @@ export default function ShowNews(props) {
      * Obtiene las noticias de la BD.
      */
     const getNews = async () => {
-      const request = await axios.get("http://abc-app-univalle.herokuapp.com/News/");
+      const request = await newsServices.getNews();
+      console.log(request.data);
       const dataN = request.data;
       const dataNfilter = dataN.filter((value) => {
         var date = new Date;
         var valueDate = new Date(value.Finish_date)
         var dateValues = valueDate.getFullYear() + '-' + parseInt(valueDate.getMonth() + 1) + "-" + parseInt(valueDate.getDate() + 1)
         var finishDateFinal = new Date(dateValues)
-        return (value.State == 'Activo' && !(date.getTime() >= finishDateFinal.getTime()))
+        return (value.State == 'Activo' && (date.getTime() >= finishDateFinal.getTime()))
       }
       )
       setDataNews(dataNfilter);

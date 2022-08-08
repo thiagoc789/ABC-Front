@@ -20,7 +20,7 @@ import Dashboard from "views/Dashboard.js";
 import Eventos from "views/Eventos.js";
 import NuevoEvento from "views/nuevoEvento.js";
 import Noticias from "views/news/Noticias.js"
-import NewsRegisterForm from "views/news/crearNoticia"
+import crearNoticia from "views/news/crearNoticia"
 import editarNoticia from "views/news/editarNoticia"
 import VerNoticias from "views/news/mostrarNoticia.js"
 import Notifications from "views/Notifications.js";
@@ -103,7 +103,7 @@ var routes = [
   },
 
   {
-    name: "Ver Noticias",
+    name: "Noticias",
     path: "/noticias",
     icon: "nc-icon nc-single-copy-04",
     component: VerNoticias,
@@ -111,7 +111,7 @@ var routes = [
     subroutes: [
       {
         path: "/noticias/crearNoticia",
-        component: NewsRegisterForm,
+        component: crearNoticia,
         layout: "/admin",
       },
       {

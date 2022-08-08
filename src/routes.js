@@ -32,7 +32,7 @@ import CrearUsuario from "views/Usuarios/CrearUsuario";
 import EditarUsuario from "views/Usuarios/EditarUsuario";
 import UpgradeToPro from "views/Upgrade.js";
 import Calendario from "views/Calendario";
-
+import Participantes from "views/Participantes"
 var routes = [
   {
     path: "/dashboard",
@@ -86,7 +86,7 @@ var routes = [
     path: "/participantes",
     name: "Participantes",
     icon: "nc-icon nc-circle-10",
-    component: Noticias,
+    component: Participantes,
     layout: "/admin",
   },
 
